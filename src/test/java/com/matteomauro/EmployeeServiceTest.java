@@ -47,7 +47,7 @@ public class EmployeeServiceTest {
 	public void testGetEmployeeByIdWhenIsNotPresentShouldThrow() throws Exception {
 		when(employeeRepository.findById(anyLong())).thenReturn(Optional.empty());
 		assertThatExceptionOfType(EmployeeNotFoundException.class)
-				.isThrownBy(() -> employeeService.getEmployeeById(1L));
+				.isThrownBy(() -> employeeService.getEmployeeById(1L)).withMessage("Employee Not Found");
 	}
 
 }
