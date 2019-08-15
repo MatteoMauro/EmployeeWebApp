@@ -5,6 +5,7 @@ target/
 !**/src/test/**
 .attach_pid*
 *.launch
+.DS_Store
 
 ### STS ###
 .apt_generated
