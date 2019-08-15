@@ -1,0 +1,34 @@
+language: java
+addons:
+  sonarcloud:
+    organization: matteomauro_github
+    token:
+      secure: $SONAR_TOKEN
+      
+matrix:
+  include:
+  - jdk: openjdk8
+    if: type IN (push) AND type NOT IN (pull_request)
+    env: MAVEN_ARGS="-Pjacoco coveralls:report sonar:sonar"
+  - jdk: openjdk8
+    if: type IN (pull_request)
+    env: MAVEN_ARGS="-Pjacoco,integration_tests coveralls:report sonar:sonar"
+  - jdk: openjdk8
+    if: type IN (pull_request)
+    env: MAVEN_ARGS="-Pe2e_tests"
+  - jdk: openjdk8
+    if: type IN (pull_request)
+    env: MAVEN_ARGS="-Ppit_mutation_testing"
+    
+services:
+  - xvfb
+
+install: true
+
+cache:
+  directories:
+  - $HOME/.m2
+  - $HOME/.sonar/cache
+  
+script:
+  - ./mvnw clean verify $MAVEN_ARGS
