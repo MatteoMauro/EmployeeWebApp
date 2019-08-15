@@ -25,8 +25,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public Employee insertNewEmployee(Employee employee) {
-		// TODO Auto-generated method stub
-		return null;
+		if(employee!=null)
+			employee.setId(null);
+		
+		return employeeRepository.save(employee);
 	}
 
 	@Override
