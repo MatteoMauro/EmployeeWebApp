@@ -247,6 +247,30 @@
     </profile>
 
     <profile>
+      <id>pit_mutation_testing</id>
+      <activation>
+        <activeByDefault>false</activeByDefault>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <!-- configured in pluginManagement -->
+            <groupId>org.pitest</groupId>
+            <artifactId>pitest-maven</artifactId>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>mutationCoverage</goal>
+                </goals>
+                <phase>verify</phase>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+    <profile>
       <id>integration_tests</id>
       <properties>
         <skip.integration-tests>false</skip.integration-tests>
