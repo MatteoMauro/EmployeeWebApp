@@ -19,6 +19,28 @@
     <java.version>1.8</java.version>
     <skip.unit-tests>false</skip.unit-tests>
     <skip.integration-tests>true</skip.integration-tests>
+    <!-- For SonarQube -->
+    <sonar.coverage.jacoco.xmlReportPaths>
+      ${project.reporting.outputDirectory}/jacoco/jacoco.xml
+    </sonar.coverage.jacoco.xmlReportPaths>
+    <!-- Also collects integration tests -->
+    <sonar.junit.reportPaths>
+      ${project.build.directory}/surefire-reports,
+      ${project.build.directory}/failsafe-reports
+    </sonar.junit.reportPaths>
+    <!-- Also scans HTML files -->
+    <sonar.sources>
+      pom.xml,
+      ${project.build.sourceDirectory},
+      ${basedir}/src/main/resources
+    </sonar.sources>
+    <!-- Exclude non covered files -->
+    <sonar.coverage.exclusions>
+      **/*Application.*,
+      **/model/*,
+      **/dto/*,
+      **/exception/*
+    </sonar.coverage.exclusions>
   </properties>
 
   <dependencies>
@@ -133,7 +155,7 @@
         </plugins>
       </build>
     </profile>
-    
+
     <profile>
       <id>e2e_tests</id>
       <activation>
