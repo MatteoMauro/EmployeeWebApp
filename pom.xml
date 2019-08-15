@@ -89,9 +89,9 @@
         </configuration>
       </plugin>
     </plugins>
-    
+
     <pluginManagement>
-    <!-- PLUGIN MANAGEMENT -->
+      <!-- PLUGIN MANAGEMENT -->
       <plugins>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -116,5 +116,23 @@
     </pluginManagement>
   </build>
 
+  <!-- PROFILES -->
+  <profiles>
+    <profile>
+      <id>integration_tests</id>
+      <properties>
+        <skip.integration-tests>false</skip.integration-tests>
+      </properties>
+      <build>
+        <plugins>
+          <plugin>
+            <!-- Configured in pluginManagement -->
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-failsafe-plugin</artifactId>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 
 </project>
