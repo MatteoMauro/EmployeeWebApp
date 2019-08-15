@@ -12,7 +12,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import com.matteomauro.exception.EmployeeNotFoundException;
 import com.matteomauro.model.Employee;
 import com.matteomauro.repository.EmployeeRepository;
 import com.matteomauro.service.EmployeeServiceImpl;
