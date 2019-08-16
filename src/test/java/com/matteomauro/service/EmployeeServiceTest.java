@@ -42,14 +42,14 @@ public class EmployeeServiceTest {
 	}
 
 	@Test
-	public void testGetEmployeeByIdWhenIsPresent() throws Exception {
+	public void testGetEmployeeById_whenIsPresent() throws Exception {
 		Employee employee = new Employee(1L, "name", "lastName", 1000L, "role");
 		when(employeeRepository.findById(1L)).thenReturn(Optional.of(employee));
 		assertThat(employeeService.getEmployeeById(1L)).isEqualTo(employee);
 	}
 
 	@Test
-	public void testGetEmployeeByIdWhenIsNotPresentShouldThrow() throws Exception {
+	public void testGetEmployeeById_whenIsNotPresent_shouldThrow() throws Exception {
 		when(employeeRepository.findById(anyLong())).thenReturn(Optional.empty());
 		assertThatExceptionOfType(EmployeeNotFoundException.class).isThrownBy(() -> employeeService.getEmployeeById(1L))
 				.withMessage("Employee Not Found");
@@ -70,7 +70,7 @@ public class EmployeeServiceTest {
 	}
 
 	@Test
-	public void testInsertNewEmployee_WhenEmployeePassedIsNull_ShouldThrowException() {
+	public void testInsertNewEmployee_whenEmployeePassedIsNull_shouldThrowException() {
 		assertThatExceptionOfType(IllegalArgumentException.class)
 				.isThrownBy(() -> employeeService.insertNewEmployee(null)).withMessage("Employee must not be null");
 		verifyNoMoreInteractions(employeeRepository);
@@ -88,5 +88,12 @@ public class EmployeeServiceTest {
 		InOrder inOrder = inOrder(replacement, employeeRepository);
 		inOrder.verify(replacement).setId(1L);
 		inOrder.verify(employeeRepository).save(replacement);
+	}
+
+	@Test
+	public void testUpdateEmployee_whenEmployeePassedIsNull_shouldThrow() throws Exception {
+		assertThatExceptionOfType(IllegalArgumentException.class)
+				.isThrownBy(() -> employeeService.updateEmployeeById(anyLong(), null)).withMessage("Employee must not be null");
+		verifyNoMoreInteractions(employeeRepository);
 	}
 }
