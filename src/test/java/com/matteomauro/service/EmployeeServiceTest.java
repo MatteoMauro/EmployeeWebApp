@@ -239,4 +239,12 @@ public class EmployeeServiceTest {
 		assertThatCode(() -> employeeService.deleteById(1L)).doesNotThrowAnyException();
 		verify(employeeRepository, times(1)).deleteById(1L);
 	}
+
+	@Test
+	public void testDeleteEmployeeById_whenEmployeeDoesNotExist() throws Exception {
+		when(employeeRepository.findById(1L)).thenReturn(Optional.empty());
+		assertThatExceptionOfType(EmployeeNotFoundException.class).isThrownBy(() -> employeeService.deleteById(1L))
+				.withMessage("Employee Not Found");
+		verifyNoMoreInteractions(ignoreStubs(employeeRepository));
+	}
 }
