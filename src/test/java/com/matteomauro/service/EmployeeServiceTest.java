@@ -169,4 +169,29 @@ public class EmployeeServiceTest {
 		verifyNoMoreInteractions(ignoreStubs(employeeRepository));
 	}
 
+	@Test
+	public void testUpdateEmployeeSalary_shouldRetrieveEmployeeFromDatabaseAndSetSalary() throws Exception {
+		Employee toUpdate = spy(new Employee(1L, "name", "lastName", 1000L, "role"));
+		Employee updated = new Employee(1L, "name", "lastName", 9999L, "role");
+
+		when(employeeRepository.findById(1L)).thenReturn(Optional.of(toUpdate));
+		when(employeeRepository.save(any(Employee.class))).thenReturn(updated);
+		Employee result = employeeService.updateEmployeeSalaryById(1L, 9999L);
+
+		assertThat(result).isSameAs(updated);
+		InOrder inOrder = inOrder(toUpdate, employeeRepository);
+		inOrder.verify(employeeRepository).findById(1L);
+		inOrder.verify(toUpdate).setSalary(9999L);
+		toUpdate.setSalary(9999L);
+		inOrder.verify(employeeRepository).save(toUpdate);
+	}
+
+	@Test
+	public void testUpdateEmployeeSalary_whenEmployeeDoesNotExist_shouldThrow() throws Exception {
+		when(employeeRepository.findById(1L)).thenReturn(Optional.empty());
+		assertThatExceptionOfType(EmployeeNotFoundException.class)
+				.isThrownBy(() -> employeeService.updateEmployeeSalaryById(1L, 9999L))
+				.withMessage("Employee Not Found");
+		verifyNoMoreInteractions(ignoreStubs(employeeRepository));
+	}
 }
