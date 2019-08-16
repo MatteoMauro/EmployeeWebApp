@@ -2,12 +2,15 @@ package com.matteomauro.service;
 
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.ignoreStubs;
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
@@ -227,5 +230,12 @@ public class EmployeeServiceTest {
 				.isThrownBy(() -> employeeService.updateEmployeeRoleById(1L, "newRole"))
 				.withMessage("Employee Not Found");
 		verifyNoMoreInteractions(ignoreStubs(employeeRepository));
+	}
+
+	@Test
+	public void testDeleteEmployeeById_whenEmployeeExists() throws Exception {
+		when(employeeRepository.findById(1L)).thenReturn(Optional.empty());
+		assertThatCode(() -> employeeService.deleteById(1L)).doesNotThrowAnyException();
+		verify(employeeRepository, times(1)).deleteById(1L);
 	}
 }
