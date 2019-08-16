@@ -142,4 +142,31 @@ public class EmployeeServiceTest {
 				.withMessage("Employee Not Found");
 		verifyNoMoreInteractions(ignoreStubs(employeeRepository));
 	}
+
+	@Test
+	public void testUpdateEmployeeLastName_shouldRetrieveEmployeeFromDatabaseAndSetLastName() throws Exception {
+		Employee toUpdate = spy(new Employee(1L, "name", "lastName", 1000L, "role"));
+		Employee updated = new Employee(1L, "name", "newLastName", 1000L, "role");
+
+		when(employeeRepository.findById(1L)).thenReturn(Optional.of(toUpdate));
+		when(employeeRepository.save(any(Employee.class))).thenReturn(updated);
+		Employee result = employeeService.updateEmployeeLastNameById(1L, "newLastName");
+
+		assertThat(result).isSameAs(updated);
+		InOrder inOrder = inOrder(toUpdate, employeeRepository);
+		inOrder.verify(employeeRepository).findById(1L);
+		inOrder.verify(toUpdate).setLastName("newLastName");
+		toUpdate.setLastName("newLastName");
+		inOrder.verify(employeeRepository).save(toUpdate);
+	}
+
+	@Test
+	public void testUpdateEmployeeLastName_whenEmployeeDoesNotExist_shouldThrow() throws Exception {
+		when(employeeRepository.findById(1L)).thenReturn(Optional.empty());
+		assertThatExceptionOfType(EmployeeNotFoundException.class)
+				.isThrownBy(() -> employeeService.updateEmployeeLastNameById(1L, "newLastName"))
+				.withMessage("Employee Not Found");
+		verifyNoMoreInteractions(ignoreStubs(employeeRepository));
+	}
+
 }
