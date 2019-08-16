@@ -81,6 +81,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public void deleteById(Long id) throws EmployeeNotFoundException {
+		if (id == null)
+			throw new IllegalArgumentException("Id must not be null");
+		
 		checkExistanceOfEmployeeById(id);
 		employeeRepository.deleteById(id);
 	}

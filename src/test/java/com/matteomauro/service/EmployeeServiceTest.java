@@ -247,4 +247,10 @@ public class EmployeeServiceTest {
 				.withMessage("Employee Not Found");
 		verifyNoMoreInteractions(ignoreStubs(employeeRepository));
 	}
+
+	@Test
+	public void testDeleteEmployeeById_whenIdPassedIsNull_shouldThrow() throws Exception {
+		assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> employeeService.deleteById(null))
+				.withMessage("Id must not be null");
+	}
 }
