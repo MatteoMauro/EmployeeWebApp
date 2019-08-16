@@ -12,7 +12,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Autowired
 	private EmployeeRepository employeeRepository;
-	
+
 	@Override
 	public List<Employee> getAllEmployees() {
 		return employeeRepository.findAll();
@@ -25,8 +25,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public Employee insertNewEmployee(Employee employee) {
-		if(employee!=null)
+		if (employee != null)
 			employee.setId(null);
+		else
+			throw new IllegalArgumentException("Employee must not be null");
 		
 		return employeeRepository.save(employee);
 	}
