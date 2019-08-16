@@ -11,7 +11,7 @@ import com.matteomauro.repository.EmployeeRepository;
 public class EmployeeServiceImpl implements EmployeeService {
 
 	private static final String EMPLOYEE_NOT_FOUND = "Employee Not Found";
-	
+
 	@Autowired
 	private EmployeeRepository employeeRepository;
 
@@ -59,20 +59,26 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public Employee updateEmployeeLastNameById(Long id, String lastName) throws EmployeeNotFoundException {
-		// TODO Auto-generated method stub
-		return null;
+		Employee toUpdate = employeeRepository.findById(id)
+				.orElseThrow(() -> new EmployeeNotFoundException(EMPLOYEE_NOT_FOUND));
+		toUpdate.setLastName(lastName);
+		return employeeRepository.save(toUpdate);
 	}
 
 	@Override
 	public Employee updateEmployeeSalaryById(Long id, Long salary) throws EmployeeNotFoundException {
-		// TODO Auto-generated method stub
-		return null;
+		Employee toUpdate = employeeRepository.findById(id)
+				.orElseThrow(() -> new EmployeeNotFoundException(EMPLOYEE_NOT_FOUND));
+		toUpdate.setSalary(salary);
+		return employeeRepository.save(toUpdate);
 	}
 
 	@Override
 	public Employee updateEmployeeRoleById(Long id, String role) throws EmployeeNotFoundException {
-		// TODO Auto-generated method stub
-		return null;
+		Employee toUpdate = employeeRepository.findById(id)
+				.orElseThrow(() -> new EmployeeNotFoundException(EMPLOYEE_NOT_FOUND));
+		toUpdate.setRole(role);
+		return employeeRepository.save(toUpdate);
 	}
 
 	@Override
