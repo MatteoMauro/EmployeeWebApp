@@ -39,6 +39,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 			replacement.setId(id);
 		else
 			throw new IllegalArgumentException("Employee must not be null");
+		if (id == null)
+			throw new IllegalArgumentException("Id must not be null");
 		
 		return employeeRepository.save(replacement);
 	}
