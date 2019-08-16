@@ -111,7 +111,7 @@ public class EmployeeServiceTest {
 	public void testUpdateEmployee_whenIdPassedIsLessOrEqualZero_shouldThrow() throws Exception {
 		Employee replacement = new Employee(null, "name", "lastName", 1000L, "role");
 		assertThatExceptionOfType(IllegalArgumentException.class)
-				.isThrownBy(() -> employeeService.updateEmployeeById(null, replacement))
+				.isThrownBy(() -> employeeService.updateEmployeeById(-1L, replacement))
 				.withMessage("Id must not be less or equal to zero");
 		verifyNoMoreInteractions(employeeRepository);
 	}

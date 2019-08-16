@@ -41,6 +41,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 			throw new IllegalArgumentException("Employee must not be null");
 		if (id == null)
 			throw new IllegalArgumentException("Id must not be null");
+		else if(id<=0)
+			throw new IllegalArgumentException("Id must not be less or equal to zero");
 		
 		return employeeRepository.save(replacement);
 	}
