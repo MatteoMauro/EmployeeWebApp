@@ -29,13 +29,17 @@ public class EmployeeServiceImpl implements EmployeeService {
 			employee.setId(null);
 		else
 			throw new IllegalArgumentException("Employee must not be null");
-		
+
 		return employeeRepository.save(employee);
 	}
 
 	@Override
 	public Employee updateEmployeeById(Long id, Employee replacement) throws EmployeeNotFoundException {
-		replacement.setId(id);
+		if (replacement != null)
+			replacement.setId(id);
+		else
+			throw new IllegalArgumentException("Employee must not be null");
+		
 		return employeeRepository.save(replacement);
 	}
 
