@@ -1,7 +1,7 @@
 language: java
 addons:
   sonarcloud:
-    organization: matteomauro_github
+    organization: matteomauro-github
     token:
       secure: $SONAR_TOKEN
       
