@@ -74,14 +74,20 @@ public class EmployeeRestControllerTest {
 	}
 	
 	@Test
-	public void testFindEmployeeById_whenNotFound() throws EmployeeNotFoundException {
-		when(employeeService.getEmployeeById(anyLong())).thenThrow(EmployeeNotFoundException.class);
+	public void testFindEmployeeById_whenFound() throws EmployeeNotFoundException {
+		when(employeeService.getEmployeeById(1L)).
+			thenReturn(new Employee(1L, "name", "lastName", 1000L, "role"));
 
 		given().
 		when().
 			get("/api/employees/1").
 		then().	
-			statusCode(404).
-			statusLine(containsString("User Not Found"));
+			statusCode(200).
+			assertThat().
+			body("id", equalTo(1), 
+				 "name", equalTo("name"), 
+				 "lastName", equalTo("lastName"), 
+				 "salary", equalTo(1000),
+				 "role", equalTo("role"));
 	}
 }
