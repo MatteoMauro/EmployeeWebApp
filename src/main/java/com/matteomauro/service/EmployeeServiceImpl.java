@@ -10,6 +10,8 @@ import com.matteomauro.repository.EmployeeRepository;
 
 public class EmployeeServiceImpl implements EmployeeService {
 
+	private static final String EMPLOYEE_NOT_FOUND = "Employee Not Found";
+	
 	@Autowired
 	private EmployeeRepository employeeRepository;
 
@@ -20,7 +22,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public Employee getEmployeeById(Long id) throws EmployeeNotFoundException {
-		return employeeRepository.findById(id).orElseThrow(() -> new EmployeeNotFoundException("Employee Not Found"));
+		return employeeRepository.findById(id).orElseThrow(() -> new EmployeeNotFoundException(EMPLOYEE_NOT_FOUND));
 	}
 
 	@Override
@@ -41,15 +43,16 @@ public class EmployeeServiceImpl implements EmployeeService {
 			throw new IllegalArgumentException("Employee must not be null");
 		if (id == null)
 			throw new IllegalArgumentException("Id must not be null");
-		else if(id<=0)
+		else if (id <= 0)
 			throw new IllegalArgumentException("Id must not be less or equal to zero");
-		
+
 		return employeeRepository.save(replacement);
 	}
 
 	@Override
 	public Employee updateEmployeeNameById(Long id, String name) throws EmployeeNotFoundException {
-		Employee toUpdate = employeeRepository.findById(id).get();
+		Employee toUpdate = employeeRepository.findById(id)
+				.orElseThrow(() -> new EmployeeNotFoundException(EMPLOYEE_NOT_FOUND));
 		toUpdate.setName(name);
 		return employeeRepository.save(toUpdate);
 	}
