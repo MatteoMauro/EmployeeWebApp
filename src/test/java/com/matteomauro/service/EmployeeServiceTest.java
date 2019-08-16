@@ -93,7 +93,17 @@ public class EmployeeServiceTest {
 	@Test
 	public void testUpdateEmployee_whenEmployeePassedIsNull_shouldThrow() throws Exception {
 		assertThatExceptionOfType(IllegalArgumentException.class)
-				.isThrownBy(() -> employeeService.updateEmployeeById(1L, null)).withMessage("Employee must not be null");
+				.isThrownBy(() -> employeeService.updateEmployeeById(1L, null))
+				.withMessage("Employee must not be null");
+		verifyNoMoreInteractions(employeeRepository);
+	}
+
+	@Test
+	public void testUpdateEmployee_whenIdPassedIsNull_shouldThrow() throws Exception {
+		Employee replacement = new Employee(null, "name", "lastName", 1000L, "role");
+		assertThatExceptionOfType(IllegalArgumentException.class)
+				.isThrownBy(() -> employeeService.updateEmployeeById(null, replacement))
+				.withMessage("Id must not be null");
 		verifyNoMoreInteractions(employeeRepository);
 	}
 }
