@@ -116,4 +116,20 @@ public class EmployeeServiceTest {
 		verifyNoMoreInteractions(employeeRepository);
 	}
 
+	@Test
+	public void testUpdateEmployeeName_shouldRetrieveEmployeeFromDatabaseAndSetName() throws Exception {
+		Employee toUpdate = new Employee(1L, "name", "lastName", 1000L, "role");
+		Employee updated = new Employee(1L, "newName", "lastName", 1000L, "role");
+		
+		when(employeeRepository.findById(1L)).thenReturn(Optional.of(toUpdate));
+		when(employeeRepository.save(any(Employee.class))).thenReturn(updated);
+		Employee result = employeeService.updateEmployeeNameById(1L, "newName");
+
+		assertThat(result).isSameAs(updated);
+		InOrder inOrder = inOrder(toUpdate, employeeRepository);
+		inOrder.verify(employeeRepository).findById(1L);
+		inOrder.verify(toUpdate).setName("newName");
+		toUpdate.setName("newName");
+		inOrder.verify(employeeRepository).save(toUpdate);
+	}
 }
