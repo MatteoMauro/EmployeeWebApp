@@ -2,8 +2,10 @@ package com.matteomauro.rest_controller;
 
 import static io.restassured.module.mockmvc.RestAssuredMockMvc.given;
 import static java.util.Arrays.asList;
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 
 import java.util.Collections;
@@ -15,6 +17,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import com.matteomauro.exception.EmployeeNotFoundException;
 import com.matteomauro.model.Employee;
 import com.matteomauro.service.EmployeeService;
 
@@ -68,5 +71,17 @@ public class EmployeeRestControllerTest {
 				 "lastName[1]", equalTo("lastName2"), 
 				 "salary[1]", equalTo(2000),
 				 "role[1]", equalTo("role2"));
+	}
+	
+	@Test
+	public void testFindEmployeeById_whenNotFound() throws EmployeeNotFoundException {
+		when(employeeService.getEmployeeById(anyLong())).thenThrow(EmployeeNotFoundException.class);
+
+		given().
+		when().
+			get("/api/employees/1").
+		then().	
+			statusCode(404).
+			statusLine(containsString("User Not Found"));
 	}
 }
