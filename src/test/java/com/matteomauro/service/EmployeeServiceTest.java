@@ -118,7 +118,7 @@ public class EmployeeServiceTest {
 
 	@Test
 	public void testUpdateEmployeeName_shouldRetrieveEmployeeFromDatabaseAndSetName() throws Exception {
-		Employee toUpdate = new Employee(1L, "name", "lastName", 1000L, "role");
+		Employee toUpdate = spy(new Employee(1L, "name", "lastName", 1000L, "role"));
 		Employee updated = new Employee(1L, "newName", "lastName", 1000L, "role");
 		
 		when(employeeRepository.findById(1L)).thenReturn(Optional.of(toUpdate));
