@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.ignoreStubs;
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -120,7 +121,7 @@ public class EmployeeServiceTest {
 	public void testUpdateEmployeeName_shouldRetrieveEmployeeFromDatabaseAndSetName() throws Exception {
 		Employee toUpdate = spy(new Employee(1L, "name", "lastName", 1000L, "role"));
 		Employee updated = new Employee(1L, "newName", "lastName", 1000L, "role");
-		
+
 		when(employeeRepository.findById(1L)).thenReturn(Optional.of(toUpdate));
 		when(employeeRepository.save(any(Employee.class))).thenReturn(updated);
 		Employee result = employeeService.updateEmployeeNameById(1L, "newName");
@@ -131,5 +132,14 @@ public class EmployeeServiceTest {
 		inOrder.verify(toUpdate).setName("newName");
 		toUpdate.setName("newName");
 		inOrder.verify(employeeRepository).save(toUpdate);
+	}
+
+	@Test
+	public void testUpdateEmployeeName_whenEmployeeDoesNotExist_shouldThrow() throws Exception {
+		when(employeeRepository.findById(1L)).thenReturn(Optional.empty());
+		assertThatExceptionOfType(EmployeeNotFoundException.class)
+				.isThrownBy(() -> employeeService.updateEmployeeNameById(1L, "newName"))
+				.withMessage("Employee Not Found");
+		verifyNoMoreInteractions(ignoreStubs(employeeRepository));
 	}
 }
