@@ -51,16 +51,14 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public Employee updateEmployeeNameById(Long id, String name) throws EmployeeNotFoundException {
-		Employee toUpdate = employeeRepository.findById(id)
-				.orElseThrow(() -> new EmployeeNotFoundException(EMPLOYEE_NOT_FOUND));
+		Employee toUpdate = checkExistanceOfEmployeeById(id);
 		toUpdate.setName(name);
 		return employeeRepository.save(toUpdate);
 	}
 
 	@Override
 	public Employee updateEmployeeLastNameById(Long id, String lastName) throws EmployeeNotFoundException {
-		Employee toUpdate = employeeRepository.findById(id)
-				.orElseThrow(() -> new EmployeeNotFoundException(EMPLOYEE_NOT_FOUND));
+		Employee toUpdate = checkExistanceOfEmployeeById(id);
 		toUpdate.setLastName(lastName);
 		return employeeRepository.save(toUpdate);
 	}
@@ -69,24 +67,26 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public Employee updateEmployeeSalaryById(Long id, Long salary) throws EmployeeNotFoundException {
 		if (salary <= 0)
 			throw new IllegalArgumentException("Salary must not be less or equal to zero");
-		Employee toUpdate = employeeRepository.findById(id)
-				.orElseThrow(() -> new EmployeeNotFoundException(EMPLOYEE_NOT_FOUND));
+		Employee toUpdate = checkExistanceOfEmployeeById(id);
 		toUpdate.setSalary(salary);
 		return employeeRepository.save(toUpdate);
 	}
 
 	@Override
 	public Employee updateEmployeeRoleById(Long id, String role) throws EmployeeNotFoundException {
-		Employee toUpdate = employeeRepository.findById(id)
-				.orElseThrow(() -> new EmployeeNotFoundException(EMPLOYEE_NOT_FOUND));
+		Employee toUpdate = checkExistanceOfEmployeeById(id);
 		toUpdate.setRole(role);
 		return employeeRepository.save(toUpdate);
 	}
 
 	@Override
 	public void deleteById(Long id) throws EmployeeNotFoundException {
-		// TODO Auto-generated method stub
+		checkExistanceOfEmployeeById(id);
+		employeeRepository.deleteById(id);
+	}
 
+	private Employee checkExistanceOfEmployeeById(Long id) throws EmployeeNotFoundException {
+		return employeeRepository.findById(id).orElseThrow(() -> new EmployeeNotFoundException(EMPLOYEE_NOT_FOUND));
 	}
 
 }

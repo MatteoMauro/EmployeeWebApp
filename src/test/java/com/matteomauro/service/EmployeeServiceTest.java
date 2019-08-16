@@ -234,7 +234,8 @@ public class EmployeeServiceTest {
 
 	@Test
 	public void testDeleteEmployeeById_whenEmployeeExists() throws Exception {
-		when(employeeRepository.findById(1L)).thenReturn(Optional.empty());
+		Employee toDelete = new Employee(1L, "name", "lastName", 1000L, "role");
+		when(employeeRepository.findById(1L)).thenReturn(Optional.of(toDelete));
 		assertThatCode(() -> employeeService.deleteById(1L)).doesNotThrowAnyException();
 		verify(employeeRepository, times(1)).deleteById(1L);
 	}
