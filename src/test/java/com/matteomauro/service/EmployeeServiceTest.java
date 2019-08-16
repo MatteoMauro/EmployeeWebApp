@@ -67,13 +67,12 @@ public class EmployeeServiceTest {
 		inOrder.verify(employeeToSave).setId(null);
 		inOrder.verify(employeeRepository).save(employeeToSave);
 	}
-	
+
 	@Test
 	public void testInsertNewEmployee_WhenEmployeePassedIsNull_ShouldThrowException() {
-		assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> employeeService.insertNewEmployee(null));
+		assertThatExceptionOfType(IllegalArgumentException.class)
+				.isThrownBy(() -> employeeService.insertNewEmployee(null)).withMessage("Employee must not be null");
 		verifyNoMoreInteractions(employeeRepository);
 	}
-	
-	
 
 }
