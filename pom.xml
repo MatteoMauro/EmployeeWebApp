@@ -145,7 +145,7 @@
           <version>0.8.3</version>
           <configuration>
             <excludes>
-              <exclude>**/EmployeeWebAppApplication.java</exclude>
+              <exclude>**/EmployeeWebAppApplication.class</exclude>
               <exclude>**/model/*</exclude>
               <exclude>**/dto/*</exclude>
               <exclude>**/exception/*</exclude>
