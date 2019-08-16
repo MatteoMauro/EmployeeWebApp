@@ -202,4 +202,30 @@ public class EmployeeServiceTest {
 				.withMessage("Salary must not be less or equal to zero");
 		verifyNoMoreInteractions(employeeRepository);
 	}
+
+	@Test
+	public void testUpdateEmployeeRole_shouldRetrieveEmployeeFromDatabaseAndSetRole() throws Exception {
+		Employee toUpdate = spy(new Employee(1L, "name", "lastName", 1000L, "role"));
+		Employee updated = new Employee(1L, "name", "lastName", 1000L, "newRole");
+
+		when(employeeRepository.findById(1L)).thenReturn(Optional.of(toUpdate));
+		when(employeeRepository.save(any(Employee.class))).thenReturn(updated);
+		Employee result = employeeService.updateEmployeeRoleById(1L, "newRole");
+
+		assertThat(result).isSameAs(updated);
+		InOrder inOrder = inOrder(toUpdate, employeeRepository);
+		inOrder.verify(employeeRepository).findById(1L);
+		inOrder.verify(toUpdate).setRole("newRole");
+		toUpdate.setRole("newRole");
+		inOrder.verify(employeeRepository).save(toUpdate);
+	}
+
+	@Test
+	public void testUpdateEmployeeRole_whenEmployeeDoesNotExist_shouldThrow() throws Exception {
+		when(employeeRepository.findById(1L)).thenReturn(Optional.empty());
+		assertThatExceptionOfType(EmployeeNotFoundException.class)
+				.isThrownBy(() -> employeeService.updateEmployeeRoleById(1L, "newRole"))
+				.withMessage("Employee Not Found");
+		verifyNoMoreInteractions(ignoreStubs(employeeRepository));
+	}
 }
