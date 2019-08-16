@@ -67,6 +67,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public Employee updateEmployeeSalaryById(Long id, Long salary) throws EmployeeNotFoundException {
+		if (salary <= 0)
+			throw new IllegalArgumentException("Salary must not be less or equal to zero");
 		Employee toUpdate = employeeRepository.findById(id)
 				.orElseThrow(() -> new EmployeeNotFoundException(EMPLOYEE_NOT_FOUND));
 		toUpdate.setSalary(salary);

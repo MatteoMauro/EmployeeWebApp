@@ -199,7 +199,7 @@ public class EmployeeServiceTest {
 	public void testUpdateEmployeeSalary_whenSalaryIsLessOrEqualZero_shouldThrow() throws Exception {
 		assertThatExceptionOfType(IllegalArgumentException.class)
 				.isThrownBy(() -> employeeService.updateEmployeeSalaryById(1L, -1000L))
-				.withMessage("Salary must not be less or equalt to zero");
+				.withMessage("Salary must not be less or equal to zero");
 		verifyNoMoreInteractions(employeeRepository);
 	}
 }
