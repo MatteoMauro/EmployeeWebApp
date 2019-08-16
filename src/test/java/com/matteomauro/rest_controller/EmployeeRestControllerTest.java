@@ -90,4 +90,17 @@ public class EmployeeRestControllerTest {
 				 "salary", equalTo(1000),
 				 "role", equalTo("role"));
 	}
+	
+	@Test
+	public void testFindEmployeeById_whenNotFound() throws EmployeeNotFoundException {
+		when(employeeService.getEmployeeById(anyLong())).
+			thenThrow(EmployeeNotFoundException.class);
+		
+		given().
+		when().
+			get("/api/employees/1").
+		then().	
+			statusCode(404).
+			statusLine(containsString("Employee Not Found"));
+	}
 }
