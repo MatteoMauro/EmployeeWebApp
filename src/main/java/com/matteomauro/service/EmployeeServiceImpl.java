@@ -35,8 +35,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public Employee updateEmployeeById(Long id, Employee replacement) throws EmployeeNotFoundException {
-		// TODO Auto-generated method stub
-		return null;
+		replacement.setId(id);
+		return employeeRepository.save(replacement);
 	}
 
 	@Override
