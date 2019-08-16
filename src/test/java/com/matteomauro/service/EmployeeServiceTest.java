@@ -1,12 +1,13 @@
-package com.matteomauro;
+package com.matteomauro.service;
 
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.inOrder;
-import static org.mockito.Mockito.when;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.inOrder;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.when;
 
 import java.util.Optional;
 
@@ -15,7 +16,6 @@ import org.junit.runner.RunWith;
 import org.mockito.InOrder;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import com.matteomauro.exception.EmployeeNotFoundException;
@@ -67,5 +67,13 @@ public class EmployeeServiceTest {
 		inOrder.verify(employeeToSave).setId(null);
 		inOrder.verify(employeeRepository).save(employeeToSave);
 	}
+	
+	@Test
+	public void testInsertNewEmployee_WhenEmployeePassedIsNull_ShouldThrowException() {
+		assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> employeeService.insertNewEmployee(null));
+		verifyNoMoreInteractions(employeeRepository);
+	}
+	
+	
 
 }
