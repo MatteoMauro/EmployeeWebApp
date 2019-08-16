@@ -3,6 +3,7 @@ package com.matteomauro.service;
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.spy;
@@ -75,4 +76,17 @@ public class EmployeeServiceTest {
 		verifyNoMoreInteractions(employeeRepository);
 	}
 
+	@Test
+	public void testUpdateEmployee_shouldSetIdToNullAndReturnSavedEmployee() throws Exception {
+		Employee replacement = spy(new Employee(null, "name", "lastName", 1000L, "role"));
+		Employee replaced = new Employee(1L, "name", "lastName", 1000L, "role");
+
+		when(employeeRepository.save(any(Employee.class))).thenReturn(replaced);
+		Employee result = employeeService.updateEmployeeById(1L, replacement);
+
+		assertThat(result).isSameAs(replaced);
+		InOrder inOrder = inOrder(replacement, employeeRepository);
+		inOrder.verify(replacement).setId(1L);
+		inOrder.verify(employeeRepository).save(replacement);
+	}
 }
