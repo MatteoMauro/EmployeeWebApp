@@ -24,7 +24,7 @@ public class EmployeeRestController {
 		return employeeService.getAllEmployees();
 	}
 	
-	@GetMapping("{id}")
+	@GetMapping("/{id}")
 	public Employee getById(@PathVariable Long id) throws EmployeeNotFoundException {
 		return employeeService.getEmployeeById(id);
 	}
