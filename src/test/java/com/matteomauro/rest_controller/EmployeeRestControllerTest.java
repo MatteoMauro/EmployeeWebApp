@@ -6,6 +6,8 @@ import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.Collections;
@@ -326,6 +328,17 @@ public class EmployeeRestControllerTest {
 		then().
 			statusCode(HttpStatus.NOT_FOUND.value()).
 			statusLine(containsString("Employee Not Found"));
+	}
+	
+	@Test
+	public void testDeleteEmployeeById() throws EmployeeNotFoundException {
+		given().
+		when().
+			delete("/api/employees/delete/1").
+		then().
+			statusCode(204);
+	
+		verify(employeeService, times(1)).deleteById(1L);
 	}
 	
 }
