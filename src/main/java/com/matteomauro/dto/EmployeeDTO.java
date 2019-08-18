@@ -4,9 +4,7 @@ import java.io.Serializable;
 
 import com.matteomauro.model.Employee;
 
-public class EmployeeDTO implements Serializable {
-
-	private static final long serialVersionUID = 1638307411819534361L;
+public class EmployeeDTO {
 
 	private Long id;
 	private String name;
@@ -20,10 +18,6 @@ public class EmployeeDTO implements Serializable {
 		this.lastName = employee.getLastName();
 		this.salary = employee.getSalary();
 		this.role = employee.getRole();
-	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
 	}
 
 	public Long getId() {
