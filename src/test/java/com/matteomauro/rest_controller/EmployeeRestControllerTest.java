@@ -28,7 +28,6 @@ import com.matteomauro.exception_handler.RestControllerExceptionHandler;
 import com.matteomauro.model.Employee;
 import com.matteomauro.service.EmployeeService;
 
-import io.restassured.http.ContentType;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -130,7 +129,7 @@ public class EmployeeRestControllerTest {
 	}
 
 	@Test
-	public void testInsertNewEmployee() throws EmployeeNotFoundException {
+	public void testInsertNewEmployee() {
 		Employee toSave = new Employee(null, "name", "lastName", 1000L, "role");
 		Employee saved = new Employee(1L, "name", "lastName", 1000L, "role");
 		when(employeeService.insertNewEmployee(toSave)).
@@ -149,6 +148,27 @@ public class EmployeeRestControllerTest {
 				 "lastName", equalTo("lastName"), 
 				 "salary", equalTo(1000),
 				 "role", equalTo("role"));
+	}
+	
+	@Test
+	public void testUpdateEmployeeById() throws EmployeeNotFoundException {
+		Employee replacement = new Employee(null, "newName", "newLastName", 2000L, "newRole");
+		when(employeeService.updateEmployeeById(1L, replacement)).
+			thenReturn(new Employee(1L, "newName", "newLastName", 2000L, "newRole"));
+		
+		given().
+			contentType(MediaType.APPLICATION_JSON_UTF8_VALUE).
+			accept(MediaType.APPLICATION_JSON_UTF8_VALUE).
+			body(replacement).
+		when().
+			put("/api/employees/update/1").
+		then().
+			statusCode(200).
+			body("id", equalTo(1), 
+				 "name", equalTo("newName"), 
+				 "lastName", equalTo("newLastName"), 
+				 "salary", equalTo(2000),
+				 "role", equalTo("newRole"));
 	}
 	
 	
