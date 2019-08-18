@@ -289,4 +289,43 @@ public class EmployeeRestControllerTest {
 			statusLine(containsString("Employee Not Found"));
 	}
 	
+	@Test
+	public void testUpdateRoleEmployeeById() throws EmployeeNotFoundException {
+		String newRole = "newRole";
+		Employee modified = new Employee(1L, "name", "lastName", 1000L, "newRole");
+		when(employeeService.updateEmployeeRoleById(1L, newRole)).
+			thenReturn(modified);
+		
+		given().
+			contentType(MediaType.APPLICATION_JSON_UTF8_VALUE).
+			accept(MediaType.APPLICATION_JSON_UTF8_VALUE).
+			body(newRole).
+		when().
+			patch("/api/employees/update/role/1").
+		then().
+			statusCode(200).
+			body("id", equalTo(1), 
+				 "name", equalTo("name"), 
+				 "lastName", equalTo("lastName"), 
+				 "salary", equalTo(1000),
+				 "role", equalTo("newRole"));
+	}
+	
+	@Test
+	public void testUpdateRoleEmployeeById_withIdNotFound_shouldThrow() throws EmployeeNotFoundException {
+		String newRole = "newRole";
+		when(employeeService.updateEmployeeRoleById(1L, newRole)).
+			thenThrow(EmployeeNotFoundException.class);
+		
+		given().
+			contentType(MediaType.APPLICATION_JSON_UTF8_VALUE).
+			accept(MediaType.APPLICATION_JSON_UTF8_VALUE).
+			body(newRole).
+		when().
+			patch("/api/employees/update/role/1").
+		then().
+			statusCode(HttpStatus.NOT_FOUND.value()).
+			statusLine(containsString("Employee Not Found"));
+	}
+	
 }
