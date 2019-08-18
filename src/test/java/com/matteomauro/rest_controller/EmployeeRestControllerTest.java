@@ -17,6 +17,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.context.support.StaticApplicationContext;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
@@ -27,6 +28,7 @@ import com.matteomauro.exception_handler.RestControllerExceptionHandler;
 import com.matteomauro.model.Employee;
 import com.matteomauro.service.EmployeeService;
 
+import io.restassured.http.ContentType;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -135,6 +137,8 @@ public class EmployeeRestControllerTest {
 			thenReturn(saved);
 		
 		given().
+			contentType(MediaType.APPLICATION_JSON_UTF8_VALUE).
+			accept(MediaType.APPLICATION_JSON_UTF8_VALUE).
 			body(new EmployeeDTO(toSave)).
 		when().
 			post("/api/employees/new").

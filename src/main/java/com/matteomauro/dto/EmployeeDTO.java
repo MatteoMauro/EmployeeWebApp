@@ -1,7 +1,5 @@
 package com.matteomauro.dto;
 
-import java.io.Serializable;
-
 import com.matteomauro.model.Employee;
 
 public class EmployeeDTO {
@@ -11,6 +9,9 @@ public class EmployeeDTO {
 	private String lastName;
 	private Long salary;
 	private String role;
+
+	public EmployeeDTO() {
+	}
 
 	public EmployeeDTO(Employee employee) {
 		this.id = employee.getId();
@@ -38,6 +39,10 @@ public class EmployeeDTO {
 
 	public String getRole() {
 		return role;
+	}
+
+	public Employee getEmployee() {
+		return new Employee(id, name, lastName, salary, role);
 	}
 
 }
