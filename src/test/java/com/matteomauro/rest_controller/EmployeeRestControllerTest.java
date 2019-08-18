@@ -7,19 +7,17 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.inOrder;
 
 import java.util.Collections;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InOrder;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.context.support.StaticApplicationContext;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.servlet.HandlerExceptionResolver;
@@ -194,6 +192,23 @@ public class EmployeeRestControllerTest {
 				"lastName", equalTo("lastName"), 
 				"salary", equalTo(1000),
 				"role", equalTo("role"));
+	}
+	
+	@Test
+	public void testUpdateNameEmployeeById_withIdNotFound_shouldThrow() throws EmployeeNotFoundException {
+		String newName = "newName";
+		when(employeeService.updateEmployeeNameById(1L, newName)).
+			thenThrow(EmployeeNotFoundException.class);
+		
+		given().
+			contentType(MediaType.APPLICATION_JSON_UTF8_VALUE).
+			accept(MediaType.APPLICATION_JSON_UTF8_VALUE).
+			body(newName).
+		when().
+			patch("/api/employees/update/name/1").
+		then().
+			statusCode(HttpStatus.NOT_FOUND.value()).
+			statusLine(containsString("Employee Not Found"));
 	}
 	
 }
