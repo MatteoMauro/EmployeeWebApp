@@ -7,6 +7,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,5 +37,11 @@ public class EmployeeRestController {
 	@PostMapping(value = "/new", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public Employee newEmployee(@RequestBody EmployeeDTO employeeDto) {
 		return employeeService.insertNewEmployee(employeeDto.getEmployee());
+	}
+	
+	@PutMapping(value = "/update/{id}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public Employee updateEmployeeById(@PathVariable Long id, @RequestBody EmployeeDTO employeeDtoReplacement)
+			throws EmployeeNotFoundException {
+		return employeeService.updateEmployeeById(id, employeeDtoReplacement.getEmployee());
 	}
 }
