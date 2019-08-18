@@ -236,7 +236,7 @@ public class EmployeeRestControllerTest {
 	@Test
 	public void testUpdateLastNameEmployeeById_withIdNotFound_shouldThrow() throws EmployeeNotFoundException {
 		String newLastName = "newLastName";
-		when(employeeService.updateEmployeeNameById(1L, newLastName)).
+		when(employeeService.updateEmployeeLastNameById(1L, newLastName)).
 			thenThrow(EmployeeNotFoundException.class);
 		
 		given().

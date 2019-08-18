@@ -51,4 +51,10 @@ public class EmployeeRestController {
 			throws EmployeeNotFoundException {
 		return employeeService.updateEmployeeNameById(id, newName);
 	}
+
+	@PatchMapping(value = "/update/lastName/{id}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public Employee updateEmployeeLastNameById(@PathVariable Long id, @RequestBody String newLastName)
+			throws EmployeeNotFoundException {
+		return employeeService.updateEmployeeLastNameById(id, newLastName);
+	}
 }
