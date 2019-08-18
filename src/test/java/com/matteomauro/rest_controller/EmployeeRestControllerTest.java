@@ -171,5 +171,27 @@ public class EmployeeRestControllerTest {
 				 "role", equalTo("newRole"));
 	}
 	
+	@Test
+	public void testUpdateNameEmployeeById() throws EmployeeNotFoundException {
+		String newName = "newName";
+		Employee modified = new Employee(1L, "newName", "lastName", 1000L, "role");
+		when(employeeService.updateEmployeeNameById(1L, newName)).
+			thenReturn(modified);
+		
+		given().
+			contentType(MediaType.APPLICATION_JSON_UTF8_VALUE).
+			accept(MediaType.APPLICATION_JSON_UTF8_VALUE).
+			body(newName).
+		when().
+			patch("/api/employees/update/1").
+		then().
+			statusCode(200).
+			body("id", equalTo(1), 
+				"name", equalTo("newName"), 
+				"lastName", equalTo("lastName"), 
+				"salary", equalTo(1000),
+				"role", equalTo("role"));
+	}
+	
 	
 }
