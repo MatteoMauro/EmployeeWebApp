@@ -21,6 +21,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
+import com.matteomauro.dto.EmployeeDTO;
 import com.matteomauro.exception.EmployeeNotFoundException;
 import com.matteomauro.exception_handler.RestControllerExceptionHandler;
 import com.matteomauro.model.Employee;
@@ -125,4 +126,26 @@ public class EmployeeRestControllerTest {
 			statusCode(404).
 			statusLine(containsString("Employee Not Found"));
 	}
+
+	@Test
+	public void testInsertNewEmployee() throws EmployeeNotFoundException {
+		Employee toSave = new Employee(null, "name", "lastName", 1000L, "role");
+		Employee saved = new Employee(1L, "name", "lastName", 1000L, "role");
+		when(employeeService.insertNewEmployee(toSave)).
+			thenReturn(saved);
+		
+		given().
+			body(new EmployeeDTO(toSave)).
+		when().
+			post("/api/employees/new").
+		then().	
+			statusCode(200).
+			body("id", equalTo(1), 
+				 "name", equalTo("name"), 
+				 "lastName", equalTo("lastName"), 
+				 "salary", equalTo(1000),
+				 "role", equalTo("role"));
+	}
+	
+	
 }

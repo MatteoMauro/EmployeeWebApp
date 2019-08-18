@@ -2,6 +2,12 @@ package com.matteomauro.model;
 
 public class Employee {
 
+	private Long id;
+	private String name;
+	private String lastName;
+	private Long salary;
+	private String role;
+
 	public Employee(Long id, String name, String lastName, Long salary, String role) {
 		super();
 		this.id = id;
@@ -10,12 +16,6 @@ public class Employee {
 		this.salary = salary;
 		this.role = role;
 	}
-
-	private Long id;
-	private String name;
-	private String lastName;
-	private Long salary;
-	private String role;
 
 	public Long getId() {
 		return id;
