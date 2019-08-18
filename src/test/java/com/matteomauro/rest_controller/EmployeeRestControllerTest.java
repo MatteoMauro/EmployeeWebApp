@@ -250,4 +250,43 @@ public class EmployeeRestControllerTest {
 			statusLine(containsString("Employee Not Found"));
 	}
 	
+	@Test
+	public void testUpdateSalaryEmployeeById() throws EmployeeNotFoundException {
+		Long newSalary = 2000L;
+		Employee modified = new Employee(1L, "name", "lastName", 2000L, "role");
+		when(employeeService.updateEmployeeSalaryById(1L, newSalary)).
+			thenReturn(modified);
+		
+		given().
+			contentType(MediaType.APPLICATION_JSON_UTF8_VALUE).
+			accept(MediaType.APPLICATION_JSON_UTF8_VALUE).
+			body(newSalary).
+		when().
+			patch("/api/employees/update/salary/1").
+		then().
+			statusCode(200).
+			body("id", equalTo(1), 
+			 	 "name", equalTo("name"), 
+		 		 "lastName", equalTo("lastName"), 
+				 "salary", equalTo(2000),
+				 "role", equalTo("role"));
+	}
+	
+	@Test
+	public void testUpdateSalaryEmployeeById_withIdNotFound_shouldThrow() throws EmployeeNotFoundException {
+		Long newSalary = 2000L;
+		when(employeeService.updateEmployeeSalaryById(1L, newSalary)).
+			thenThrow(EmployeeNotFoundException.class);
+		
+		given().
+			contentType(MediaType.APPLICATION_JSON_UTF8_VALUE).
+			accept(MediaType.APPLICATION_JSON_UTF8_VALUE).
+			body(newSalary).
+		when().
+			patch("/api/employees/update/salary/1").
+		then().
+			statusCode(HttpStatus.NOT_FOUND.value()).
+			statusLine(containsString("Employee Not Found"));
+	}
+	
 }
