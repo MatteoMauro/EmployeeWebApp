@@ -2,8 +2,12 @@ package com.matteomauro.rest_controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -68,5 +72,12 @@ public class EmployeeRestController {
 	public Employee updateEmployeeRoleById(@PathVariable Long id, @RequestBody String newRole)
 			throws EmployeeNotFoundException {
 		return employeeService.updateEmployeeRoleById(id, newRole);
+	}
+
+	@DeleteMapping(value = "/delete/{id}")
+	public void deleteEmployeeById(@PathVariable Long id, HttpServletResponse response)
+			throws EmployeeNotFoundException {
+		employeeService.deleteById(id);
+		response.setStatus(HttpStatus.NO_CONTENT.value());
 	}
 }

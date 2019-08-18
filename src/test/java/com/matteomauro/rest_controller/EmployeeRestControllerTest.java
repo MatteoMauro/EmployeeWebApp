@@ -336,7 +336,7 @@ public class EmployeeRestControllerTest {
 		when().
 			delete("/api/employees/delete/1").
 		then().
-			statusCode(204);
+			statusCode(HttpStatus.NO_CONTENT.value());
 	
 		verify(employeeService, times(1)).deleteById(1L);
 	}
