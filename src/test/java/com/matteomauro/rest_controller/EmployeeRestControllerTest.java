@@ -7,14 +7,17 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.inOrder;
 
 import java.util.Collections;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InOrder;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.context.support.StaticApplicationContext;
 import org.springframework.http.MediaType;
@@ -183,7 +186,7 @@ public class EmployeeRestControllerTest {
 			accept(MediaType.APPLICATION_JSON_UTF8_VALUE).
 			body(newName).
 		when().
-			patch("/api/employees/update/1").
+			patch("/api/employees/update/name/1").
 		then().
 			statusCode(200).
 			body("id", equalTo(1), 
@@ -192,6 +195,5 @@ public class EmployeeRestControllerTest {
 				"salary", equalTo(1000),
 				"role", equalTo("role"));
 	}
-	
 	
 }
