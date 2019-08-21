@@ -149,6 +149,9 @@
               <exclude>**/model/*</exclude>
               <exclude>**/dto/*</exclude>
               <exclude>**/exception/*</exclude>
+              <!-- service is excluded since contains only fake implementations in web-controller branch -->
+              <exclude>**/service/*</exclude>
+              <!-- service is excluded since contains only fake implementations in web-controller branch -->
             </excludes>
           </configuration>
           <executions>
