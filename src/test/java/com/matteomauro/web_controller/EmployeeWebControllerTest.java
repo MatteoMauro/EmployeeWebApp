@@ -2,9 +2,11 @@ package com.matteomauro.web_controller;
 
 import static java.util.Arrays.asList;
 import static org.hamcrest.CoreMatchers.nullValue;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
@@ -88,7 +90,31 @@ public class EmployeeWebControllerTest {
 		verifyZeroInteractions(employeeService);
 	}
 	
-	
+	@Test
+	public void testPostEmployeeWithoutId_shouldInsertNewEmployee() throws Exception {
+		mvc.perform(post("/save").
+			param("name", "test_name").
+			param("lastName", "test_lastName").
+			param("salary", "1000").
+			param("role", "test_role")).
+			andExpect(view().name("redirect:/"));
+		
+		verify(employeeService)
+			.insertNewEmployee(new Employee(null, "test_name", "test_lastName", 1000L, "test_role"));
+	}
+	@Test
+	public void testPostEmployeeWithId_shouldUpdateExistingEmployee() throws Exception {
+		mvc.perform(post("/save").
+			param("id", "1").
+			param("name", "test_name").
+			param("lastName", "test_lastName").
+			param("salary", "1000").
+			param("role", "test_role")).
+			andExpect(view().name("redirect:/"));
+		
+		verify(employeeService)
+			.updateEmployeeById(1L, new Employee(1L, "test_name", "test_lastName", 1000L, "test_role"));
+	}
 	
 	
 	
