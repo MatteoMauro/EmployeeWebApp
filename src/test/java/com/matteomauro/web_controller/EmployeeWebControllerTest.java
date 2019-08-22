@@ -19,6 +19,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import com.matteomauro.exception.EmployeeNotFoundException;
 import com.matteomauro.model.Employee;
 import com.matteomauro.service.EmployeeService;
 import com.matteomauro.web_controller.EmployeeWebController;
@@ -65,16 +66,15 @@ public class EmployeeWebControllerTest {
 		
 		mvc.perform(get("/edit/1")).
 			andExpect(view().name("edit")).
-			andExpect(model().attribute("employee", employee)).
-			andExpect(model().attribute("message", ""));
+			andExpect(model().attribute("employee", employee));
 	}
 
 	@Test
 	public void test_EditEmployee_WhenEmployeeIsNotFound() throws Exception {
-		when(employeeService.getEmployeeById(1L)).thenReturn(null);
+		when(employeeService.getEmployeeById(1L)).thenThrow(EmployeeNotFoundException.class);
 	
 		mvc.perform(get("/edit/1")).
-			andExpect(view().name("edit")).
+			andExpect(view().name("employee404")).
 			andExpect(model().attribute("employee", nullValue())).
 			andExpect(model().attribute("message", "No employee found with id: 1"));
 	}
