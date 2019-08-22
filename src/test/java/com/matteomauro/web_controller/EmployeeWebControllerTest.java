@@ -7,6 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.junit.Test;
@@ -37,16 +38,25 @@ public class EmployeeWebControllerTest {
 	}
 
 	@Test
-	public void test_HomeView_ShowsEmployees() throws Exception {
+	public void testHomepage_showsEmployees() throws Exception {
 		List<Employee> employees = asList(new Employee(1L, "name", "lastName", 1000L, "role"));
 		when(employeeService.getAllEmployees()).thenReturn(employees);
 		
 		mvc.perform(get("/")).
 			andExpect(view().name("index")).
-			andExpect(model().attribute("employees", employees));
+			andExpect(model().attribute("employees", employees)).
+			andExpect(model().attribute("message", ""));
 	}
 	
-	
+	@Test
+	public void test_HomeView_ShowsMessageWhenThereAreNoEmployees() throws Exception {
+		when(employeeService.getAllEmployees()).thenReturn(Collections.emptyList());
+		
+		mvc.perform(get("/")).
+			andExpect(view().name("index")).
+			andExpect(model().attribute("employees", Collections.emptyList())).
+			andExpect(model().attribute("message", "No Employee"));
+	}
 	
 	
 	
