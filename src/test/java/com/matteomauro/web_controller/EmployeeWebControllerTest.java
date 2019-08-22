@@ -2,9 +2,11 @@ package com.matteomauro.web_controller;
 
 import static java.util.Arrays.asList;
 import static org.hamcrest.CoreMatchers.nullValue;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
@@ -25,7 +27,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import com.matteomauro.exception.EmployeeNotFoundException;
 import com.matteomauro.model.Employee;
 import com.matteomauro.service.EmployeeService;
-import com.matteomauro.web_controller.EmployeeWebController;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(controllers = EmployeeWebController.class)
@@ -103,6 +104,7 @@ public class EmployeeWebControllerTest {
 		verify(employeeService)
 			.insertNewEmployee(new Employee(null, "test_name", "test_lastName", 1000L, "test_role"));
 	}
+	
 	@Test
 	public void testPostEmployeeWithId_shouldUpdateExistingEmployee() throws Exception {
 		mvc.perform(post("/save").
@@ -117,6 +119,18 @@ public class EmployeeWebControllerTest {
 			.updateEmployeeById(1L, new Employee(1L, "test_name", "test_lastName", 1000L, "test_role"));
 	}
 	
+	@Test
+	public void testDeleteEmployee_whenEmployeeIsFound() throws Exception {
+		mvc.perform(delete("/delete/1")).
+			andExpect(view().name("redirect:/"));
+	}
+
+	@Test
+	public void testDeleteEmployee_whenEmployeeIsNotFound() throws Exception {
+		doThrow(EmployeeNotFoundException.class).when(employeeService).deleteById(1L);
 	
-	
+		mvc.perform(delete("/delete/1")).
+			andExpect(view().name("employee404")).
+			andExpect(model().attribute("message", "No employee found with id: 1"));
+	}
 }
