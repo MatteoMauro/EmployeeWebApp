@@ -84,8 +84,7 @@ public class EmployeeWebControllerTest {
 	public void testNewEmployee() throws Exception {
 		mvc.perform(get("/new")).
 			andExpect(view().name("edit")).
-			andExpect(model().attribute("employee", new Employee())).
-			andExpect(model().attribute("message", ""));
+			andExpect(model().attribute("employee", new Employee()));
 		verifyZeroInteractions(employeeService);
 	}
 	

@@ -33,7 +33,13 @@ public class EmployeeWebController {
 		} catch (EmployeeNotFoundException ex) {
 			throw new EmployeeNotFoundException(id);
 		}
-		return "index";
+		return "edit";
+	}
+
+	@GetMapping("/new")
+	public String newEmployee(Model model) {
+		model.addAttribute("employee", new Employee());
+		return "edit";
 	}
 
 }
