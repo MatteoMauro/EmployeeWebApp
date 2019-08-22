@@ -11,6 +11,10 @@ public class Employee {
 		this.role = role;
 	}
 
+	public Employee() {
+
+	}
+
 	private Long id;
 	private String name;
 	private String lastName;

@@ -2,6 +2,7 @@ package com.matteomauro.web_controller;
 
 import static java.util.Arrays.asList;
 import static org.hamcrest.CoreMatchers.nullValue;
+import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
@@ -78,7 +79,15 @@ public class EmployeeWebControllerTest {
 			andExpect(model().attribute("employee", nullValue())).
 			andExpect(model().attribute("message", "No employee found with id: 1"));
 	}
-	
+
+	@Test
+	public void testNewEmployee() throws Exception {
+		mvc.perform(get("/new")).
+			andExpect(view().name("edit")).
+			andExpect(model().attribute("employee", new Employee())).
+			andExpect(model().attribute("message", ""));
+		verifyZeroInteractions(employeeService);
+	}
 	
 	
 	
