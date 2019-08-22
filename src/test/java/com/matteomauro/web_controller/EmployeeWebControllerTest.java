@@ -1,6 +1,7 @@
 package com.matteomauro.web_controller;
 
 import static java.util.Arrays.asList;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
@@ -58,7 +59,25 @@ public class EmployeeWebControllerTest {
 			andExpect(model().attribute("message", "No Employee"));
 	}
 	
+	public void testEditEmployee_whenEmployeeIsFound() throws Exception {
+		Employee employee = new Employee(1L, "name", "lastName", 1000L, "role");
+		when(employeeService.getEmployeeById(1L)).thenReturn(employee);
+		
+		mvc.perform(get("/edit/1")).
+			andExpect(view().name("edit")).
+			andExpect(model().attribute("employee", employee)).
+			andExpect(model().attribute("message", ""));
+	}
+
+	@Test
+	public void test_EditEmployee_WhenEmployeeIsNotFound() throws Exception {
+		when(employeeService.getEmployeeById(1L)).thenReturn(null);
 	
+		mvc.perform(get("/edit/1")).
+			andExpect(view().name("edit")).
+			andExpect(model().attribute("employee", nullValue())).
+			andExpect(model().attribute("message", "No employee found with id: 1"));
+	}
 	
 	
 	
