@@ -63,6 +63,7 @@ public class EmployeeWebControllerTest {
 			andExpect(model().attribute("message", "No Employee"));
 	}
 	
+	@Test
 	public void testEditEmployee_whenEmployeeIsFound() throws Exception {
 		Employee employee = new Employee(1L, "name", "lastName", 1000L, "role");
 		when(employeeService.getEmployeeById(1L)).thenReturn(employee);
