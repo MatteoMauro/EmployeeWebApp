@@ -197,7 +197,7 @@
               <param>com.matteomauro.dto.*</param>
               <param>com.matteomauro.model.*</param>
               <param>com.matteomauro.exception.*</param>
-              <param>com.matteomauro.EmployeeWebAppApplicationTests</param>
+              <param>com.matteomauro.EmployeeWebAppApplication</param>
             </excludedClasses>
             <targetTests>
               <param>com.matteomauro.*</param>
