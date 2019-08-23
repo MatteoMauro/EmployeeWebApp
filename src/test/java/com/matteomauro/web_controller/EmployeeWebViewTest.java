@@ -1,6 +1,7 @@
 package com.matteomauro.web_controller;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static com.gargoylesoftware.htmlunit.WebAssert.assertTitleEquals;
 import static java.util.Arrays.asList;
@@ -15,6 +16,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.gargoylesoftware.htmlunit.WebClient;
+import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.gargoylesoftware.htmlunit.html.HtmlTable;
 import com.matteomauro.exception.EmployeeNotFoundException;
@@ -77,6 +79,22 @@ public class EmployeeWebViewTest {
 		assertTitleEquals(page, "404 Employee Not Found");
 		assertThat(page.getBody().getTextContent())
 			.contains("No employee found with id: 1");
+	}
+	
+	@Test
+	public void testEditExistentEmployee() throws Exception {
+		when(employeeService.getEmployeeById(1L))
+			.thenReturn(new Employee(1L, "test_name", "test_lastName", 1000L, "test_role"));
+		
+		HtmlPage page = this.webClient.getPage("/edit/1");
+		final HtmlForm form = page.getFormByName("employee_form");
+		form.getInputByValue("test_name").setValueAttribute("modified_name");
+		form.getInputByValue("test_lastName").setValueAttribute("modified_lastName");
+		form.getInputByValue("1000").setValueAttribute("2000");
+		form.getInputByValue("test_role").setValueAttribute("modified_role");
+		form.getButtonByName("btn_submit").click();
+		verify(employeeService)
+			.updateEmployeeById(1L, new Employee(1L, "modified_name", "modified_lastName", 2000L, "modified_role"));
 	}
 	
 	private String removeWindowsCR(String s) {
