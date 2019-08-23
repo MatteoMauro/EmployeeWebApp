@@ -2,9 +2,11 @@ package com.matteomauro.web_controller;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
+import static com.gargoylesoftware.htmlunit.WebAssert.assertTitleEquals;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.gargoylesoftware.htmlunit.html.HtmlTable;
+import com.matteomauro.exception.EmployeeNotFoundException;
 import com.matteomauro.model.Employee;
 import com.matteomauro.service.EmployeeService;
 
@@ -28,6 +31,14 @@ public class EmployeeWebViewTest {
 	@MockBean
 	private EmployeeService employeeService;
 
+	@Before
+	/**
+	 * Necessary to restore failing test when exceptions occur
+	 */
+	public void clearSessionOfWebClient() {
+		webClient.getOptions().setThrowExceptionOnFailingStatusCode(true);
+	}
+	
 	@Test
 	public void testHomePageTitle() throws Exception {
 		HtmlPage page = webClient.getPage("/");
@@ -55,6 +66,17 @@ public class EmployeeWebViewTest {
 				"1	name1	lastName1	1000	role1\n" +
 				"2	name2	lastName2	2000	role2"
 		);
+	}
+	
+	@Test
+	public void testEditNonExistentEmployee() throws Exception {
+		when(employeeService.getEmployeeById(1L)).thenThrow(EmployeeNotFoundException.class);
+		webClient.getOptions().setThrowExceptionOnFailingStatusCode(false);
+		
+		HtmlPage page = this.webClient.getPage("/edit/1");
+		assertTitleEquals(page, "404 Employee Not Found");
+		assertThat(page.getBody().getTextContent())
+			.contains("No employee found with id: 1");
 	}
 	
 	private String removeWindowsCR(String s) {
