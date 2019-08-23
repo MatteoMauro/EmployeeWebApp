@@ -1,9 +1,13 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8" />
 <title>EmployeeWebApp</title>
 </head>
 <body>
+  <!-- IF NO EMPLOYEE -->
+  <div th:if="${employees.empty}">
+    <span th:text="${message}"></span>
+  </div>
 </body>
 </html>

@@ -1,6 +1,9 @@
 package com.matteomauro.web_controller;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.when;
+
+import static java.util.Collections.emptyList;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,5 +30,12 @@ public class EmployeeWebViewTest {
 	public void testHomePageTitle() throws Exception {
 		HtmlPage page = webClient.getPage("/");
 		assertThat(page.getTitleText()).isEqualTo("EmployeeWebApp");
+	}
+
+	@Test
+	public void testHomePageWithNoEmployees() throws Exception {
+		when(employeeService.getAllEmployees()).thenReturn(emptyList());
+		HtmlPage page = this.webClient.getPage("/");
+		assertThat(page.getBody().getTextContent()).contains("No Employee");
 	}
 }
