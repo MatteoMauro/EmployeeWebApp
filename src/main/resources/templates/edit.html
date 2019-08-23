@@ -6,6 +6,33 @@
 </head>
 <body>
   <h1>Edit Employee</h1>
-  <span th:text="${message}"></span>
+  <!-- IF NO EMPLOYEE -->
+  <div th:unless="${message == null || message.empty}">
+    <span th:text="${message}"></span>
+  </div>
+  <!-- ELSE -->
+  <div th:if="${message == null}">
+    <form name="employee_form" th:action="@{/save}"
+      th:object="${employee}" method="post">
+      <input type="hidden" th:field="*{id}" />
+      <p>
+        Name:
+        <input type="text" th:field="*{name}" />
+      </p>
+      <p>
+        Last Name:
+        <input type="text" th:field="*{lastName}" />
+      </p>
+      <p>
+        Salary:
+        <input type="text" th:field="*{salary}" />
+      </p>
+      <p>
+        Role:
+        <input type="text" th:field="*{role}" />
+      </p>
+      <button type="submit" name="btn_submit">Save</button>
+    </form>
+  </div>
 </body>
 </html>
