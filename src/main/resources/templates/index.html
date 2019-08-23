@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8" />
 <title>EmployeeWebApp</title>
@@ -15,13 +15,14 @@
   <!-- ELSE -->
   <div th:unless="${employees.empty}">
     <table id="employee_table">
+    <caption>Table of employees</caption>
       <thead>
         <tr>
-          <th>ID</th>
-          <th>Name</th>
-          <th>LastName</th>
-          <th>Salary</th>
-          <th>Role</th>
+          <th scope="col">ID</th>
+          <th scope="col">Name</th>
+          <th scope="col">LastName</th>
+          <th scope="col">Salary</th>
+          <th scope="col">Role</th>
         </tr>
       </thead>
       <tbody>
