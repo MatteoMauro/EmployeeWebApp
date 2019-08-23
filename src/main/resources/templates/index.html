@@ -9,5 +9,28 @@
   <div th:if="${employees.empty}">
     <span th:text="${message}"></span>
   </div>
+  <!-- ELSE -->
+  <div th:unless="${employees.empty}">
+    <table id="employee_table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>LastName</th>
+          <th>Salary</th>
+          <th>Role</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="employee : ${employees}">
+          <td th:text="${employee.id}"></td>
+          <td th:text="${employee.name}"></td>
+          <td th:text="${employee.lastName}"></td>
+          <td th:text="${employee.salary}"></td>
+          <td th:text="${employee.role}"></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </body>
 </html>
