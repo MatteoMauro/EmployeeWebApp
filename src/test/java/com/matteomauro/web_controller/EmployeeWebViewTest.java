@@ -97,6 +97,19 @@ public class EmployeeWebViewTest {
 			.updateEmployeeById(1L, new Employee(1L, "modified_name", "modified_lastName", 2000L, "modified_role"));
 	}
 	
+	@Test
+	public void testEditNewEmployee() throws Exception {
+		HtmlPage page = this.webClient.getPage("/new");
+		final HtmlForm form = page.getFormByName("employee_form");
+		form.getInputByName("name").setValueAttribute("new_name");
+		form.getInputByName("lastName").setValueAttribute("new_lastName");
+		form.getInputByName("salary").setValueAttribute("1000");
+		form.getInputByName("role").setValueAttribute("new_role");
+		form.getButtonByName("btn_submit").click();
+		verify(employeeService)
+			.insertNewEmployee(new Employee(null, "new_name", "new_lastName", 1000L, "new_role"));
+	}
+	
 	private String removeWindowsCR(String s) {
 		return s.replaceAll("\r", "");
 	}
