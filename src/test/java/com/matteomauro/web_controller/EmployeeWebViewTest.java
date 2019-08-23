@@ -110,6 +110,12 @@ public class EmployeeWebViewTest {
 			.insertNewEmployee(new Employee(null, "new_name", "new_lastName", 1000L, "new_role"));
 	}
 	
+	@Test
+	public void testHomePage_shouldProvideLinkToCreateNewEmployees() throws Exception {
+		HtmlPage page = this.webClient.getPage("/");
+		assertThat(page.getAnchorByText("New employee").getHrefAttribute()).isEqualTo("/new");
+	}
+	
 	private String removeWindowsCR(String s) {
 		return s.replaceAll("\r", "");
 	}
