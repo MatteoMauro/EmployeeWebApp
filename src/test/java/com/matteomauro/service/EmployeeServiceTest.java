@@ -112,10 +112,19 @@ public class EmployeeServiceTest {
 	}
 
 	@Test
-	public void testUpdateEmployee_whenIdPassedIsLessOrEqualZero_shouldThrow() throws Exception {
+	public void testUpdateEmployee_whenIdPassedIsLessThanZero_shouldThrow() throws Exception {
 		Employee replacement = new Employee(null, "name", "lastName", 1000L, "role");
 		assertThatExceptionOfType(IllegalArgumentException.class)
 				.isThrownBy(() -> employeeService.updateEmployeeById(-1L, replacement))
+				.withMessage("Id must not be less or equal to zero");
+		verifyNoMoreInteractions(employeeRepository);
+	}
+	
+	@Test
+	public void testUpdateEmployee_whenIdPassedIsZero_shouldThrow() throws Exception {
+		Employee replacement = new Employee(null, "name", "lastName", 1000L, "role");
+		assertThatExceptionOfType(IllegalArgumentException.class)
+				.isThrownBy(() -> employeeService.updateEmployeeById(0L, replacement))
 				.withMessage("Id must not be less or equal to zero");
 		verifyNoMoreInteractions(employeeRepository);
 	}
@@ -175,17 +184,17 @@ public class EmployeeServiceTest {
 	@Test
 	public void testUpdateEmployeeSalary_shouldRetrieveEmployeeFromDatabaseAndSetSalary() throws Exception {
 		Employee toUpdate = spy(new Employee(1L, "name", "lastName", 1000L, "role"));
-		Employee updated = new Employee(1L, "name", "lastName", 9999L, "role");
+		Employee updated = new Employee(1L, "name", "lastName", 1L, "role");
 
 		when(employeeRepository.findById(1L)).thenReturn(Optional.of(toUpdate));
 		when(employeeRepository.save(any(Employee.class))).thenReturn(updated);
-		Employee result = employeeService.updateEmployeeSalaryById(1L, 9999L);
+		Employee result = employeeService.updateEmployeeSalaryById(1L, 1L);
 
 		assertThat(result).isSameAs(updated);
 		InOrder inOrder = inOrder(toUpdate, employeeRepository);
 		inOrder.verify(employeeRepository).findById(1L);
-		inOrder.verify(toUpdate).setSalary(9999L);
-		toUpdate.setSalary(9999L);
+		inOrder.verify(toUpdate).setSalary(1L);
+		toUpdate.setSalary(1L);
 		inOrder.verify(employeeRepository).save(toUpdate);
 	}
 
@@ -199,9 +208,17 @@ public class EmployeeServiceTest {
 	}
 
 	@Test
-	public void testUpdateEmployeeSalary_whenSalaryIsLessOrEqualZero_shouldThrow() throws Exception {
+	public void testUpdateEmployeeSalary_whenSalaryIsLessThanZero_shouldThrow() throws Exception {
 		assertThatExceptionOfType(IllegalArgumentException.class)
 				.isThrownBy(() -> employeeService.updateEmployeeSalaryById(1L, -1000L))
+				.withMessage("Salary must not be less or equal to zero");
+		verifyNoMoreInteractions(employeeRepository);
+	}
+	
+	@Test
+	public void testUpdateEmployeeSalary_whenSalaryIsZero_shouldThrow() throws Exception {
+		assertThatExceptionOfType(IllegalArgumentException.class)
+				.isThrownBy(() -> employeeService.updateEmployeeSalaryById(1L, 0L))
 				.withMessage("Salary must not be less or equal to zero");
 		verifyNoMoreInteractions(employeeRepository);
 	}
