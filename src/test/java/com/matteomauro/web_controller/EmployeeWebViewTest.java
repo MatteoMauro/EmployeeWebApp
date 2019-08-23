@@ -50,10 +50,14 @@ public class EmployeeWebViewTest {
 		HtmlPage page = this.webClient.getPage("/");
 		assertThat(page.getBody().getTextContent()).doesNotContain("No Employee");
 		HtmlTable table = page.getHtmlElementById("employee_table");
-		assertThat(table.asText()).isEqualTo(
+		assertThat(removeWindowsCR(table.asText())).isEqualTo(
 				"ID	Name	LastName	Salary	Role\n" +
 				"1	name1	lastName1	1000	role1\n" +
 				"2	name2	lastName2	2000	role2"
 		);
+	}
+	
+	private String removeWindowsCR(String s) {
+		return s.replaceAll("\r", "");
 	}
 }
