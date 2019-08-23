@@ -65,9 +65,11 @@ public class EmployeeWebViewTest {
 		HtmlTable table = page.getHtmlElementById("employee_table");
 		assertThat(removeWindowsCR(table.asText())).isEqualTo(
 				"ID	Name	LastName	Salary	Role\n" +
-				"1	name1	lastName1	1000	role1\n" +
-				"2	name2	lastName2	2000	role2"
+				"1	name1	lastName1	1000	role1	 Edit\n" +
+				"2	name2	lastName2	2000	role2	 Edit"
 		);
+		page.getAnchorByHref("/edit/1");
+		page.getAnchorByHref("/edit/2");
 	}
 	
 	@Test
