@@ -7,7 +7,7 @@ public class EmployeeNotFoundException extends Exception {
 	private final Long idSearched;
 
 	public EmployeeNotFoundException(Long idSearched) {
-		super();
+		super("Employee Not Found");
 		this.idSearched = idSearched;
 	}
 
