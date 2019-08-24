@@ -140,4 +140,14 @@ public class EmployeeRestControllerIT {
 				"salary", equalTo(1000),
 				"role", equalTo("modified_role"));
 	}
+
+	@Test
+	public void testDeleteEmployee() throws Exception {
+		Employee saved = employeeRepository.save(new Employee(null, "name", "lastName", 1000L, "role"));
+		given().
+		when().
+			delete("/api/employees/delete/" + saved.getId()).
+		then().
+			statusCode(204);
+	}
 }
