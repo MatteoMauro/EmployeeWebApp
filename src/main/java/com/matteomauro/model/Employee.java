@@ -28,6 +28,12 @@ public class Employee {
 		this.role = role;
 	}
 
+	private Long id;
+	private String name;
+	private String lastName;
+	private Long salary;
+	private String role;
+
 	public Long getId() {
 		return id;
 	}

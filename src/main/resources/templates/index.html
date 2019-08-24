@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<title>EmployeeWebApp</title>
+</head>
+<body>
+  <div>
+    <a th:href="@{/new}">New employee</a>
+  </div>
+  <!-- IF NO EMPLOYEE -->
+  <div th:if="${employees.empty}">
+    <span th:text="${message}"></span>
+  </div>
+  <!-- ELSE -->
+  <div th:unless="${employees.empty}">
+    <table id="employee_table">
+    <caption>Table of employees</caption>
+      <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Name</th>
+          <th scope="col">LastName</th>
+          <th scope="col">Salary</th>
+          <th scope="col">Role</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="employee : ${employees}">
+          <td th:text="${employee.id}"></td>
+          <td th:text="${employee.name}"></td>
+          <td th:text="${employee.lastName}"></td>
+          <td th:text="${employee.salary}"></td>
+          <td th:text="${employee.role}"></td>
+          <td>
+            <a th:href="@{'/edit/' + ${employee.id}}">Edit</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>
