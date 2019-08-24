@@ -57,10 +57,16 @@ public class EmployeeWebControllerIT {
 	@Test
 	public void testEditPageNewEmployee() throws Exception {
 		driver.get(baseUrl + "/new");
-		driver.findElement(By.name("name")).sendKeys("new employee");
+		driver.findElement(By.name("name")).sendKeys("name");
+		driver.findElement(By.name("lastName")).sendKeys("lastName");
 		driver.findElement(By.name("salary")).sendKeys("2000");
+		driver.findElement(By.name("role")).sendKeys("role");
 		driver.findElement(By.name("btn_submit")).click();
-		assertThat(employeeRepository.findAll().get(0).getSalary()).isEqualTo(2000L);
+		Employee saved = employeeRepository.findAll().get(0);
+		assertThat(saved.getName()).isEqualTo("name");
+		assertThat(saved.getLastName()).isEqualTo("lastName");
+		assertThat(saved.getSalary()).isEqualTo(2000L);
+		assertThat(saved.getRole()).isEqualTo("role");
 	}
 
 	@Test
