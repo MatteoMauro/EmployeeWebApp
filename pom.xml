@@ -41,6 +41,10 @@
       **/dto/*,
       **/exception/*
     </sonar.coverage.exclusions>
+    <sonar.cpd.exclusions>
+      **/model/*,
+      **/dto/*
+    </sonar.cpd.exclusions>
   </properties>
 
   <dependencies>
