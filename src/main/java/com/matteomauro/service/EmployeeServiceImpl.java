@@ -3,11 +3,13 @@ package com.matteomauro.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.matteomauro.exception.EmployeeNotFoundException;
 import com.matteomauro.model.Employee;
 import com.matteomauro.repository.EmployeeRepository;
 
+@Service
 public class EmployeeServiceImpl implements EmployeeService {
 
 	private static final String EMPLOYEE_NOT_FOUND = "Employee Not Found";
@@ -83,7 +85,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public void deleteById(Long id) throws EmployeeNotFoundException {
 		if (id == null)
 			throw new IllegalArgumentException("Id must not be null");
-		
+
 		checkExistanceOfEmployeeById(id);
 		employeeRepository.deleteById(id);
 	}

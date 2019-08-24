@@ -2,6 +2,7 @@ package com.matteomauro;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,7 +31,7 @@ public class EmployeeServiceRepositoryIT {
 	@Test
 	public void testServiceCanInsertIntoRepository() {
 		Employee saved = employeeService.insertNewEmployee(new Employee(null, "name", "lastName", 1000L, "role"));
-		employeeRepository.findById(saved.getId()).isPresent();
+		assertTrue(employeeRepository.findById(saved.getId()).isPresent());
 	}
 
 	@Test
