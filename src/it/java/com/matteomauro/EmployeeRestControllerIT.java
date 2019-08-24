@@ -68,4 +68,76 @@ public class EmployeeRestControllerIT {
 				"salary", equalTo(2000),
 				"role", equalTo("modified_role"));
 	}
+	
+	@Test
+	public void testUpdateEmployee_name() throws Exception {
+		Employee saved = employeeRepository.save(new Employee(null, "name", "lastName", 1000L, "role"));
+		given().
+			contentType(MediaType.APPLICATION_JSON_UTF8_VALUE).
+			body("modified_name").
+		when().
+			patch("/api/employees/update/name/" + saved.getId()).
+		then().
+			statusCode(200).
+			body(
+				"id", equalTo(saved.getId().intValue()), 
+				"name", equalTo("modified_name"), 
+				"lastName", equalTo("lastName"), 
+				"salary", equalTo(1000),
+				"role", equalTo("role"));
+	}
+	
+	@Test
+	public void testUpdateEmployee_lastName() throws Exception {
+		Employee saved = employeeRepository.save(new Employee(null, "name", "lastName", 1000L, "role"));
+		given().
+			contentType(MediaType.APPLICATION_JSON_UTF8_VALUE).
+			body("modified_lastName").
+		when().
+			patch("/api/employees/update/lastName/" + saved.getId()).
+		then().
+			statusCode(200).
+			body(
+				"id", equalTo(saved.getId().intValue()), 
+				"name", equalTo("name"), 
+				"lastName", equalTo("modified_lastName"), 
+				"salary", equalTo(1000),
+				"role", equalTo("role"));
+	}
+
+	@Test
+	public void testUpdateEmployee_salary() throws Exception {
+		Employee saved = employeeRepository.save(new Employee(null, "name", "lastName", 1000L, "role"));
+		given().
+			contentType(MediaType.APPLICATION_JSON_UTF8_VALUE).
+			body(2000).
+		when().
+			patch("/api/employees/update/salary/" + saved.getId()).
+		then().
+			statusCode(200).
+			body(
+				"id", equalTo(saved.getId().intValue()), 
+				"name", equalTo("name"), 
+				"lastName", equalTo("lastName"), 
+				"salary", equalTo(2000),
+				"role", equalTo("role"));
+	}
+
+	@Test
+	public void testUpdateEmployee_role() throws Exception {
+		Employee saved = employeeRepository.save(new Employee(null, "name", "lastName", 1000L, "role"));
+		given().
+			contentType(MediaType.APPLICATION_JSON_UTF8_VALUE).
+			body("modified_role").
+		when().
+			patch("/api/employees/update/role/" + saved.getId()).
+		then().
+			statusCode(200).
+			body(
+				"id", equalTo(saved.getId().intValue()), 
+				"name", equalTo("name"), 
+				"lastName", equalTo("lastName"), 
+				"salary", equalTo(1000),
+				"role", equalTo("modified_role"));
+	}
 }
