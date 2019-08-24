@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.matteomauro.dto.EmployeeDTO;
 import com.matteomauro.exception.EmployeeNotFoundException;
 import com.matteomauro.model.Employee;
 import com.matteomauro.service.EmployeeService;
@@ -45,12 +46,12 @@ public class EmployeeWebController {
 	}
 
 	@PostMapping("/save")
-	public String saveEmployee(Employee employee) throws EmployeeNotFoundException {
-		final Long id = employee.getId();
+	public String saveEmployee(EmployeeDTO employeeDto) throws EmployeeNotFoundException {
+		final Long id = employeeDto.getId();
 		if (id == null) {
-			employeeService.insertNewEmployee(employee);
+			employeeService.insertNewEmployee(employeeDto.getEmployee());
 		} else {
-			employeeService.updateEmployeeById(id, employee);
+			employeeService.updateEmployeeById(id, employeeDto.getEmployee());
 		}
 		return "redirect:/";
 	}

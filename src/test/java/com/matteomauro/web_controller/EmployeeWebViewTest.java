@@ -19,6 +19,7 @@ import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.gargoylesoftware.htmlunit.html.HtmlTable;
+import com.matteomauro.dto.EmployeeDTO;
 import com.matteomauro.exception.EmployeeNotFoundException;
 import com.matteomauro.model.Employee;
 import com.matteomauro.service.EmployeeService;
@@ -97,7 +98,7 @@ public class EmployeeWebViewTest {
 		form.getInputByValue("test_role").setValueAttribute("modified_role");
 		form.getButtonByName("btn_submit").click();
 		verify(employeeService)
-			.updateEmployeeById(1L, new Employee(1L, "modified_name", "modified_lastName", 2000L, "modified_role"));
+			.updateEmployeeById(1L, new EmployeeDTO(1L, "modified_name", "modified_lastName", 2000L, "modified_role").getEmployee());
 	}
 	
 	@Test
@@ -110,7 +111,7 @@ public class EmployeeWebViewTest {
 		form.getInputByName("role").setValueAttribute("new_role");
 		form.getButtonByName("btn_submit").click();
 		verify(employeeService)
-			.insertNewEmployee(new Employee(null, "new_name", "new_lastName", 1000L, "new_role"));
+			.insertNewEmployee(new EmployeeDTO(null, "new_name", "new_lastName", 1000L, "new_role").getEmployee());
 	}
 	
 	@Test
