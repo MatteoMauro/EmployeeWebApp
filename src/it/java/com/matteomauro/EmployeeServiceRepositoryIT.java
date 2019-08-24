@@ -1,6 +1,7 @@
 package com.matteomauro;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertFalse;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -38,5 +39,12 @@ public class EmployeeServiceRepositoryIT {
 		Employee modified = employeeService.updateEmployeeById(saved.getId(),
 				new Employee(null, "new_name", "new_lastName", 2000L, "new_role"));
 		assertThat(employeeRepository.findById(saved.getId()).get()).isEqualTo(modified);
+	}
+
+	@Test
+	public void testServiceCanDeleteIntoRepository() throws EmployeeNotFoundException {
+		Employee saved = employeeService.insertNewEmployee(new Employee(null, "name", "lastName", 1000L, "role"));
+		employeeService.deleteById(saved.getId());
+		assertFalse(employeeRepository.findById(saved.getId()).isPresent());
 	}
 }
