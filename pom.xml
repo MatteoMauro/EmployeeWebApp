@@ -45,7 +45,7 @@
       **/model/*,
       **/dto/*
     </sonar.cpd.exclusions>
-    <sonar.issue.ignore.multicriteria>e1,e2</sonar.issue.ignore.multicriteria>
+    <sonar.issue.ignore.multicriteria>e1,e2,e3</sonar.issue.ignore.multicriteria>
     <sonar.issue.ignore.multicriteria.e1.ruleKey>
       squid:S4823
     </sonar.issue.ignore.multicriteria.e1.ruleKey>
@@ -58,6 +58,12 @@
     <sonar.issue.ignore.multicriteria.e2.resourceKey>
       **/model/*.java
     </sonar.issue.ignore.multicriteria.e2.resourceKey>
+       <sonar.issue.ignore.multicriteria.e3.ruleKey>
+      squid:S2699
+    </sonar.issue.ignore.multicriteria.e3.ruleKey>
+    <sonar.issue.ignore.multicriteria.e3.resourceKey>
+      **/EmployeeWebAppApplicationTests.java
+    </sonar.issue.ignore.multicriteria.e3.resourceKey>
   </properties>
 
   <dependencies>
