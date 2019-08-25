@@ -92,27 +92,32 @@ public class Employee {
 		if (id == null) {
 			if (other.id != null)
 				return false;
-		} else if (!id.equals(other.id))
+		} 
+		else if (!id.equals(other.id))
 			return false;
 		if (lastName == null) {
 			if (other.lastName != null)
 				return false;
-		} else if (!lastName.equals(other.lastName))
+		} 
+		else if (!lastName.equals(other.lastName))
 			return false;
 		if (name == null) {
 			if (other.name != null)
 				return false;
-		} else if (!name.equals(other.name))
+		} 
+		else if (!name.equals(other.name))
 			return false;
 		if (role == null) {
 			if (other.role != null)
 				return false;
-		} else if (!role.equals(other.role))
+		} 
+		else if (!role.equals(other.role))
 			return false;
 		if (salary == null) {
 			if (other.salary != null)
 				return false;
-		} else if (!salary.equals(other.salary))
+		} 
+		else if (!salary.equals(other.salary))
 			return false;
 		return true;
 	}
