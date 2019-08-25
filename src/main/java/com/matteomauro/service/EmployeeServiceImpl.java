@@ -12,8 +12,6 @@ import com.matteomauro.repository.EmployeeRepository;
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
 
-	private static final String EMPLOYEE_NOT_FOUND = "Employee Not Found";
-
 	@Autowired
 	private EmployeeRepository employeeRepository;
 
@@ -24,7 +22,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public Employee getEmployeeById(Long id) throws EmployeeNotFoundException {
-		return employeeRepository.findById(id).orElseThrow(() -> new EmployeeNotFoundException(EMPLOYEE_NOT_FOUND));
+		return employeeRepository.findById(id).orElseThrow(() -> new EmployeeNotFoundException(id));
 	}
 
 	@Override
@@ -91,7 +89,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	private Employee checkExistanceOfEmployeeById(Long id) throws EmployeeNotFoundException {
-		return employeeRepository.findById(id).orElseThrow(() -> new EmployeeNotFoundException(EMPLOYEE_NOT_FOUND));
+		return employeeRepository.findById(id).orElseThrow(() -> new EmployeeNotFoundException(id));
 	}
 
 }

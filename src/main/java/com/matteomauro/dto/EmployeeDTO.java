@@ -54,4 +54,24 @@ public class EmployeeDTO {
 		return new Employee(id, name, lastName, salary, role);
 	}
 
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public void setSalary(Long salary) {
+		this.salary = salary;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+
 }

@@ -84,6 +84,21 @@
       <groupId>com.h2database</groupId>
       <artifactId>h2</artifactId>
     </dependency>
+    <dependency>
+      <groupId>net.sourceforge.htmlunit</groupId>
+      <artifactId>htmlunit</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.seleniumhq.selenium</groupId>
+      <artifactId>htmlunit-driver</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.seleniumhq.selenium</groupId>
+      <artifactId>selenium-support</artifactId>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
 
   <build>
@@ -162,9 +177,6 @@
               <exclude>**/model/*</exclude>
               <exclude>**/dto/*</exclude>
               <exclude>**/exception/*</exclude>
-              <!-- ONLY for branch rest_controller, service must be ignored -->
-              <exclude>**/service/*</exclude>
-              <!-- ONLY for branch rest_controller, service must be ignored -->
             </excludes>
           </configuration>
           <executions>
