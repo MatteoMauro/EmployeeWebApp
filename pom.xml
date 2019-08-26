@@ -19,6 +19,9 @@
     <java.version>1.8</java.version>
     <skip.unit-tests>false</skip.unit-tests>
     <skip.integration-tests>true</skip.integration-tests>
+    <employee.MYSQL_DATABASE>employee_database</employee.MYSQL_DATABASE>
+    <employee.MYSQL_USER>springuser</employee.MYSQL_USER>
+    <employee.MYSQL_PASSWORD>springuser</employee.MYSQL_PASSWORD>
     <!-- For SonarQube -->
     <sonar.coverage.jacoco.xmlReportPaths>
       ${project.reporting.outputDirectory}/jacoco/jacoco.xml
@@ -58,7 +61,7 @@
     <sonar.issue.ignore.multicriteria.e2.resourceKey>
       **/model/*.java
     </sonar.issue.ignore.multicriteria.e2.resourceKey>
-       <sonar.issue.ignore.multicriteria.e3.ruleKey>
+    <sonar.issue.ignore.multicriteria.e3.ruleKey>
       squid:S2699
     </sonar.issue.ignore.multicriteria.e3.ruleKey>
     <sonar.issue.ignore.multicriteria.e3.resourceKey>
@@ -95,6 +98,10 @@
       <artifactId>spring-boot-starter-data-jpa</artifactId>
     </dependency>
     <dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+    </dependency>
+    <dependency>
       <groupId>io.rest-assured</groupId>
       <artifactId>spring-mock-mvc</artifactId>
       <scope>test</scope>
@@ -123,14 +130,6 @@
   <build>
     <!-- PLUGINS -->
     <plugins>
-      <plugin>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-maven-plugin</artifactId>
-        <configuration>
-          <mainClass>com.matteomauro.EmployeeWebAppApplication</mainClass>
-        </configuration>
-      </plugin>
-
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>
@@ -270,6 +269,60 @@
           <artifactId>sonar-maven-plugin</artifactId>
           <version>3.6.0.1398</version>
         </plugin>
+
+        <plugin>
+          <groupId>io.fabric8</groupId>
+          <artifactId>docker-maven-plugin</artifactId>
+          <version>0.30.0</version>
+          <extensions>true</extensions>
+          <configuration>
+            <images>
+              <image>
+                <alias>database</alias>
+                <name>mysql:8.0.16</name>
+                <run>
+                  <wait>
+                    <log>mysqld: ready for connections</log>
+                    <time>200000</time>
+                  </wait>
+                  <env>
+                    <MYSQL_ROOT_PASSWORD>root</MYSQL_ROOT_PASSWORD>
+                    <MYSQL_DATABASE>${employee.MYSQL_DATABASE}</MYSQL_DATABASE>
+                    <MYSQL_USER>${employee.MYSQL_USER}</MYSQL_USER>
+                    <MYSQL_PASSWORD>${employee.MYSQL_PASSWORD}</MYSQL_PASSWORD>
+                  </env>
+                  <ports>
+                    <port>3306:3306</port>
+                  </ports>
+                </run>
+              </image>
+            </images>
+          </configuration>
+          <executions>
+            <execution>
+              <id>docker:start</id>
+              <phase>pre-integration-test</phase>
+              <goals>
+                <goal>start</goal>
+              </goals>
+            </execution>
+            <execution>
+              <id>docker:stop</id>
+              <phase>post-integration-test</phase>
+              <goals>
+                <goal>stop</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+
+        <plugin>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-maven-plugin</artifactId>
+          <configuration>
+            <mainClass>com.matteomauro.EmployeeWebAppApplication</mainClass>
+          </configuration>
+        </plugin>
       </plugins>
     </pluginManagement>
   </build>
@@ -325,9 +378,17 @@
       <id>integration_tests</id>
       <properties>
         <skip.integration-tests>false</skip.integration-tests>
+        <employee.MYSQL_DATABASE>employee_database_test</employee.MYSQL_DATABASE>
+        <employee.MYSQL_USER>springuser_test</employee.MYSQL_USER>
+        <employee.MYSQL_PASSWORD>springuser_test</employee.MYSQL_PASSWORD>
       </properties>
       <build>
         <plugins>
+          <plugin>
+            <!-- configured in pluginManagement -->
+            <groupId>io.fabric8</groupId>
+            <artifactId>docker-maven-plugin</artifactId>
+          </plugin>
           <plugin>
             <!-- Configured in pluginManagement -->
             <groupId>org.apache.maven.plugins</groupId>
@@ -348,6 +409,12 @@
       </properties>
       <build>
         <plugins>
+          <plugin>
+            <!-- configured in pluginManagement -->
+            <groupId>io.fabric8</groupId>
+            <artifactId>docker-maven-plugin</artifactId>
+          </plugin>
+
           <plugin>
             <groupId>org.codehaus.mojo</groupId>
             <artifactId>build-helper-maven-plugin</artifactId>

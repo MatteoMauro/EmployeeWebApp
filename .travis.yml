@@ -1,4 +1,5 @@
 language: java
+
 addons:
   sonarcloud:
     organization: matteomauro-github
@@ -22,6 +23,7 @@ matrix:
     
 services:
   - xvfb
+  - docker
 
 install: true
 
@@ -31,4 +33,4 @@ cache:
   - $HOME/.sonar/cache
   
 script:
-  - ./mvnw clean verify $MAVEN_ARGS
+  - ./mvnw clean verify $MAVEN_ARGS --quiet

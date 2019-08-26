@@ -9,6 +9,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.matteomauro.exception.EmployeeNotFoundException;
@@ -18,6 +19,7 @@ import com.matteomauro.service.EmployeeService;
 import com.matteomauro.service.EmployeeServiceImpl;
 
 @RunWith(SpringRunner.class)
+@ActiveProfiles("mysql")
 @DataJpaTest
 @Import(EmployeeServiceImpl.class)
 public class EmployeeServiceRepositoryIT {
