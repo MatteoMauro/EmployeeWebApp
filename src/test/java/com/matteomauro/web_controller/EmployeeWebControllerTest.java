@@ -121,7 +121,7 @@ public class EmployeeWebControllerTest {
 	
 	@Test
 	public void testDeleteEmployee_whenEmployeeIsFound() throws Exception {
-		mvc.perform(delete("/delete/1")).
+		mvc.perform(get("/delete/1")).
 			andExpect(view().name("redirect:/"));
 	}
 
@@ -129,7 +129,7 @@ public class EmployeeWebControllerTest {
 	public void testDeleteEmployee_whenEmployeeIsNotFound() throws Exception {
 		doThrow(EmployeeNotFoundException.class).when(employeeService).deleteById(1L);
 	
-		mvc.perform(delete("/delete/1")).
+		mvc.perform(get("/delete/1")).
 			andExpect(view().name("employee404")).
 			andExpect(model().attribute("message", "No employee found with id: 1"));
 	}
