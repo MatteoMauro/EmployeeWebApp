@@ -38,10 +38,12 @@ public class EmployeeWebControllerE2E {
 	public void testCreateNewEmployee() {
 		driver.get(baseUrl);
 		driver.findElement(By.cssSelector("a[href*='/new")).click();
-		driver.findElement(By.name("name")).sendKeys("new employee");
+		driver.findElement(By.name("name")).sendKeys("name");
+		driver.findElement(By.name("lastName")).sendKeys("lastName");
 		driver.findElement(By.name("salary")).sendKeys("2000");
+		driver.findElement(By.name("role")).sendKeys("role");
 		driver.findElement(By.name("btn_submit")).click();
 		
-		assertThat(driver.findElement(By.id("employee_table")).getText()).contains("new employee", "2000");
+		assertThat(driver.findElement(By.id("employee_table")).getText()).contains("name", "lastName", "2000", "role");
 	}
 }
