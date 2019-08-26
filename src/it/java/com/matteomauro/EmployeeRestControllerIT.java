@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.matteomauro.dto.EmployeeDTO;
@@ -22,6 +23,7 @@ import io.restassured.RestAssured;
 import io.restassured.response.Response;
 
 @RunWith(SpringRunner.class)
+@ActiveProfiles("mysql")
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 public class EmployeeRestControllerIT {
 
