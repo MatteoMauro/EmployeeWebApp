@@ -33,4 +33,4 @@ cache:
   - $HOME/.sonar/cache
   
 script:
-  - ./mvnw clean verify $MAVEN_ARGS --no-transfer-progress
+  - ./mvnw -B clean verify $MAVEN_ARGS -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
