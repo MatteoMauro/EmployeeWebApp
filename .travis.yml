@@ -9,7 +9,7 @@ addons:
 matrix:
   include:
   - jdk: openjdk8
-    if: type = push AND type != pull_request
+    if: type = push
     env: MAVEN_ARGS="-Pjacoco coveralls:report sonar:sonar"
   - jdk: openjdk8
     if: type IN (pull_request)
@@ -33,4 +33,4 @@ cache:
   - $HOME/.sonar/cache
   
 script:
-  - ./mvnw clean verify $MAVEN_ARGS -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
+  - ./mvnw clean verify $MAVEN_ARGS --no-transfer-progress
