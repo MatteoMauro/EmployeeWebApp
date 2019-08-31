@@ -33,4 +33,4 @@ cache:
   - $HOME/.sonar/cache
   
 script:
-  - ./mvnw clean verify -Pe2e_tests
+  - ./mvnw clean verify $MAVEN_ARGS
