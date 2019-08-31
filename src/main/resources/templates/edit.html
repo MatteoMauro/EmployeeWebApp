@@ -3,36 +3,50 @@
 <head>
 <meta charset="UTF-8" />
 <title>Edit</title>
+<link rel="stylesheet"
+	href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css" />
+<link rel="stylesheet" th:href="@{/css/card.css}">
+<link rel="stylesheet" th:href="@{/css/font.css}">
+<link href="https://fonts.googleapis.com/css?family=Lato&display=swap"
+	rel="stylesheet">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
 </head>
 <body>
-  <h1>Edit Employee</h1>
-  <!-- IF NO EMPLOYEE -->
-  <div th:unless="${message == null || message.empty}">
-    <span th:text="${message}"></span>
-  </div>
-  <!-- ELSE -->
-  <div th:if="${message == null}">
-    <form name="employee_form" th:action="@{/save}"
-      th:object="${employee}" method="post">
-      <input type="hidden" th:field="*{id}" />
-      <p>
-        Name:
-        <input type="text" th:field="*{name}" />
-      </p>
-      <p>
-        Last Name:
-        <input type="text" th:field="*{lastName}" />
-      </p>
-      <p>
-        Salary:
-        <input type="text" th:field="*{salary}" />
-      </p>
-      <p>
-        Role:
-        <input type="text" th:field="*{role}" />
-      </p>
-      <button type="submit" name="btn_submit">Save</button>
-    </form>
-  </div>
+	<div class="container">
+		<h2 class="font-weight-bold my-5">Edit Employee</h2>
+		<!-- IF NO EMPLOYEE -->
+		<div th:unless="${message == null || message.empty}">
+			<span th:text="${message}"></span>
+		</div>
+		<!-- ELSE -->
+		<div th:if="${message == null}">
+			<form name="employee_form" th:action="@{/save}"
+				th:object="${employee}" method="post" class="card mt-1">
+				<input type="hidden" th:field="*{id}" />
+				<p>
+					<label for="name">Name:</label> <input type="text"
+						th:field="*{name}" class="form-control" />
+				</p>
+				<p>
+					<label for="lastName">Last Name:</label> <input type="text"
+						th:field="*{lastName}" class="form-control" />
+				</p>
+				<p>
+					<label for="salary">Salary:</label> <input type="text"
+						th:field="*{salary}" class="form-control" />
+				</p>
+				<p>
+					<label for="role">Role:</label> <input type="text"
+						th:field="*{role}" class="form-control" />
+				</p>
+				<button type="submit" name="btn_submit" class="btn btn-primary">Save</button>
+			</form>
+		</div>
+		<div class="mt-4 ml-3">
+			<a class="btn btn-primary" th:href="@{/}">Go back to homepage</a>
+		</div>
+	</div>
 </body>
 </html>
