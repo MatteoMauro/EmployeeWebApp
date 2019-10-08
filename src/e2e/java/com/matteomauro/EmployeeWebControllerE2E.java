@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 
@@ -26,7 +27,9 @@ public class EmployeeWebControllerE2E {
 	@Before
 	public void setup() {
 		baseUrl = "http://localhost:" + port;
-		driver = new ChromeDriver();
+		ChromeOptions options = new ChromeOptions();
+		options.addArguments("--no-sandbox");
+		driver = new ChromeDriver(options);
 	}
 
 	@After

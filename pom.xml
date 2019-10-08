@@ -460,6 +460,8 @@
                   <goal>start</goal>
                 </goals>
                 <configuration>
+                  <wait>30000</wait>
+                  <maxAttempts>10</maxAttempts>
                   <arguments>
                     <argument>--server.port=${tomcat.http.port}</argument>
                   </arguments>
